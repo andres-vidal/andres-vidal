@@ -1,26 +1,15 @@
 # Hi, I'm Andrés 👋
 
-I'm a **Computer Engineer** with a strong academic background in **Machine Learning** and **Statistics**, and a particular interest in turning statistical ideas into efficient, usable software.
+**Computer Scientist & Statistician.** I work to bridge the gap between
+**statistical machine-learning research** and software that's fast and reliable.
 
-* 🎓 **Computer Engineering** — Universidad de la República (Montevideo, Uruguay)
-* 📊 **BSc in Statistics for Technology** — Universidad de la República (finishing)
-* 🧠 Academic focus on **statistical learning**, **machine learning algorithms**, **mathematical modelling**, and their theoretical foundations
-* ⚙️ Currently developing a **high-performance C++ implementation of Projection Pursuit Random Forests**, designed to be used as an **R package**
-* 💼 **6+ years of professional experience** in industry at Wyeworks, working across frontend and backend systems (mostly TypeScript-based stacks)
+**[andresvidal.dev](https://andresvidal.dev)** · [ORCID](https://orcid.org/0009-0008-6350-7585) · [LinkedIn](https://www.linkedin.com/in/andresvidalberriel/) · andres@andresvidal.dev
 
-While most of my industry experience is in full-stack development, my main interests lie in **algorithmic development**, **ML systems**, and **performance-critical code**, closer to research and systems-oriented engineering.
+- 🎓 **Ingeniería en Computación** (Computer Science & Engineering) and a **BSc in Statistics** (ongoing) — Universidad de la República, Montevideo
+- 🌲 Building **[ppforest2](https://github.com/andres-vidal/ppforest2)** — a fast C++/R implementation of Projection Pursuit Random Forests (my Statistics thesis)
+- 📄 Co-author on peer-reviewed work in distributed coevolutionary GAN training (CARLA & GECCO 2023)
+- 💼 **6+ years** building production software for U.S. clients as a Senior Software Engineer at **WyeWorks**
 
----
+My interests sit at the intersection of **statistical & machine learning**, **algorithm design**, and **high-performance computing** — closer to research and systems-oriented engineering.
 
-### Interests
-
-* Machine Learning algorithms
-* Statistical learning
-* Mathematical modelling
-* High-performance and parallel computing
-* Reproducible research
-* C++ / R / TypeScript
-
----
-
-📌 *I’m especially interested in roles and projects at the intersection of machine learning, statistics, mathematical modelling, algorithmic development, and systems engineering.*
+→ More at **[andresvidal.dev](https://andresvidal.dev)**

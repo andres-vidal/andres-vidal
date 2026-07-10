@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}})();function toggleTheme(){var d=document.documentElement,c=d.getAttribute("data-theme"),k=c?c==="dark":matchMedia("(prefers-color-scheme: dark)").matches,n=k?"light":"dark";d.setAttribute("data-theme",n);try{localStorage.setItem("theme",n)}catch(e){}}</script>
+<title>Andrés Vidal · CV</title>
+<meta name="description" content="Currículo de Andrés Vidal, cientista da computação e estatístico, Montevidéu, Uruguai.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="alternate" hreflang="en" href="https://andresvidal.dev/cv.html">
+<link rel="alternate" hreflang="es" href="https://andresvidal.dev/es/cv.html">
+<link rel="alternate" hreflang="pt" href="https://andresvidal.dev/pt/cv.html">
+<link rel="stylesheet" href="/cv.css">
+</head>
+<body>
+
+  <div class="toolbar">
+    <a href="/pt/">← andresvidal.dev</a>
+    <div class="tb-right">
+      <nav class="langbar" aria-label="Language">
+        <a href="/cv.html">EN</a>
+        <a href="/es/cv.html">ES</a>
+        <a href="/pt/cv.html" aria-current="true">PT</a> <button class="themebtn" type="button" onclick="toggleTheme()" aria-label="Toggle light or dark theme"><span class="sun"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v2.5M12 20v2.5M3.5 12H1M23 12h-2.5M5 5l1.7 1.7M17.3 17.3 19 19M19 5l-1.7 1.7M6.7 17.3 5 19"/></svg></span><span class="moon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span></button>
+      </nav>
+      <button class="btn-print" onclick="window.print()">Imprimir / Salvar PDF</button>
+    </div>
+  </div>
+
+  <div class="sheet">
+
+    <header class="cv">
+      <h1 class="cv-name">Andrés Vidal</h1>
+      <p class="cv-role">Cientista da Computação e Estatístico</p>
+      <div class="cv-contact">
+        <a href="mailto:andres@andresvidal.dev">andres@andresvidal.dev</a>
+        <a href="https://andresvidal.dev">andresvidal.dev</a>
+        <a href="https://github.com/andres-vidal">github.com/andres-vidal</a>
+        <a href="https://www.linkedin.com/in/andresvidalberriel/">linkedin.com/in/andresvidalberriel</a>
+        <a href="https://orcid.org/0009-0008-6350-7585">orcid.org/0009-0008-6350-7585</a>
+        <span>Montevidéu, Uruguai</span>
+      </div>
+    </header>
+
+    <p class="summary">Cientista da computação e estatístico uruguaio. Trabalho para <b>construir pontes entre a pesquisa em aprendizado de máquina estatístico e software rápido e confiável</b>. Autor de publicações revisadas por pares sobre modelos generativos distribuídos e do <b>ppforest2</b>, uma implementação de alto desempenho em C++/R de Projection Pursuit Random Forests. Mais de 6 anos construindo software de produção para clientes dos Estados Unidos.</p>
+
+    <section class="cv">
+      <h2 class="cv-h">Formação</h2>
+
+      <div class="entry">
+        <div class="when">Em breve</div>
+        <div>
+          <div class="title">Mestrado, <span class="org"><a href="https://www.udelar.edu.uy/" target="_blank" rel="noopener">Universidad de la República</a></span>, Uruguai</div>
+          <div class="sub">Faculdade de Engenharia (aprendizado de máquina / matemática aplicada).</div>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="when">Em andamento</div>
+        <div>
+          <div class="title">Bacharelado em Estatística (perfil tecnológico), <span class="org"><a href="https://www.udelar.edu.uy/" target="_blank" rel="noopener">Universidad de la República</a></span>, Uruguai</div>
+          <div class="sub">Aprendizado estatístico, análise multivariada e modelagem matemática.</div>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="when">2022</div>
+        <div>
+          <div class="title">Engenharia da Computação (Ingeniería en Computación), <span class="org"><a href="https://www.udelar.edu.uy/" target="_blank" rel="noopener">Universidad de la República</a></span>, Uruguai</div>
+          <div class="sub">Tese: <em>Data augmentation with distributed deep generative networks.</em> Orientador: S. Nesmachnow.</div>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="when">2015</div>
+        <div>
+          <div class="title">Curso Técnico, <span class="org"><a href="https://ifrs.edu.br/canoas/" target="_blank" rel="noopener">IFRS Campus Canoas</a></span> (Brasil)</div>
+          <div class="note">Originalmente <em>Técnico em Informática</em>, com ênfase em análise e desenvolvimento de sistemas; o programa foi posteriormente renomeado para <em>Técnico em Análise e Desenvolvimento de Sistemas</em>.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cv">
+      <h2 class="cv-h">Publicações</h2>
+
+      <div class="entry pub">
+        <div class="when">2023</div>
+        <div>
+          <div class="title">Parallel-Distributed Implementation of the Lipizzaner Framework for Multiobjective Coevolutionary Training of Generative Adversarial Networks</div>
+          <div class="authors">S. Nesmachnow, J. Toutouh, A. Mautone, G. Ripa, <b>A. Vidal</b></div>
+          <div class="meta-line">High Performance Computing · CARLA 2023, Springer · <a href="https://doi.org/10.1007/978-3-031-52186-7_7">doi.org/10.1007/978-3-031-52186-7_7</a></div>
+        </div>
+      </div>
+
+      <div class="entry pub">
+        <div class="when">2023</div>
+        <div>
+          <div class="title">Multiobjective coevolutionary training of Generative Adversarial Networks</div>
+          <div class="authors">A. Mautone, G. Ripa, <b>A. Vidal</b>, S. Nesmachnow, J. Toutouh</div>
+          <div class="meta-line">GECCO '23 Companion, ACM</div>
+        </div>
+      </div>
+
+      <div class="entry pub">
+        <div class="when">2022</div>
+        <div>
+          <div class="title">Data augmentation with distributed deep generative networks: multiobjective coevolutionary algorithms for sample diversity</div>
+          <div class="authors">Tese de Engenharia da Computação · com A. Mautone e G. Ripa · Orientador: S. Nesmachnow</div>
+          <div class="meta-line">Universidad de la República · <a href="https://www.colibri.udelar.edu.uy/jspui/handle/20.500.12008/34371">repositório Colibrí</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cv">
+      <h2 class="cv-h">Experiência</h2>
+
+      <div class="entry">
+        <div class="when">Desde 2020</div>
+        <div>
+          <div class="title">Senior Software Engineer, <span class="org"><a href="https://www.wyeworks.com/" target="_blank" rel="noopener">WyeWorks</a></span></div>
+          <ul>
+            <li>Desenvolvimento full-stack de aplicações web de produção para clientes dos Estados Unidos em TypeScript (React, Next.js, NestJS), em ed-tech, e-commerce/ticketing e saúde.</li>
+            <li><a href="https://legacy.joinprisma.com" target="_blank" rel="noopener">Prisma</a> (escola virtual): ferramentas de aprendizado colaborativo em tempo real, incluindo um editor colaborativo de apresentações com vídeo incorporado e um editor de blocos estilo Notion, construídos com React e CRDTs.</li>
+            <li>Liderei o design de um framework de renderização de formulários baseado em esquemas (React + Zod) para substituir um sistema legado.</li>
+            <li>Projetei e conduzi o programa interno de onboarding da WyeWorks.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="entry">
+        <div class="when">Desde 2013</div>
+        <div>
+          <div class="title">Assistente de pesquisa, <a href="https://ifrs.edu.br/canoas/" target="_blank" rel="noopener">IFRS Campus Canoas</a></div>
+          <div class="sub">Bolsista de Iniciação Científica (CNPq, IFRS) em projetos interdisciplinares que aplicavam software às humanidades e à educação: literatura brasileira em tradução (que deu origem à plataforma Richard Burton) e robótica educacional. Também docente ocasional de cursos curtos (tecnologias web 2020; Elixir/Phoenix 2023).</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cv">
+      <h2 class="cv-h">Projetos selecionados</h2>
+
+      <div class="entry">
+        <div class="when">ppforest2</div>
+        <div>
+          <div class="title">Projection Pursuit Random Forests: implementação de alto desempenho</div>
+          <div class="sub">Um núcleo rápido e eficiente em memória em C++ com interfaces para R e CLI, e um sucessor moderno do pacote de R <code>PPforest</code>. Cortes oblíquos, treinamento multithread (OpenMP), integração com tidymodels e golden tests reprodutíveis multiplataforma. Submetido ao CRAN. (Projeto de tese de Estatística.)</div>
+          <div class="meta-line"><a href="https://github.com/andres-vidal/ppforest2">github.com/andres-vidal/ppforest2</a> · <a href="https://andres-vidal.github.io/ppforest2/">docs</a></div>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="when">richardburton</div>
+        <div>
+          <div class="title">Richard &amp; Isabel Burton Platform</div>
+          <div class="sub">Uma plataforma full-stack (React + Elixir/Phoenix) que cataloga traduções para o inglês de literatura brasileira. Evoluiu de um projeto do técnico em Java (JSF/JPA) para uma plataforma registrada no INPI, hoje uma colaboração voluntária de pesquisa com o IFRS Canoas.</div>
+          <div class="meta-line"><a href="https://github.com/andres-vidal/richardburton">github.com/andres-vidal/richardburton</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cv">
+      <h2 class="cv-h">Competências</h2>
+      <div class="kv">
+        <div class="k">Linguagens</div>
+        <div class="v"><b>C++</b>, <b>R</b>, TypeScript, Elixir, Python</div>
+      </div>
+      <div class="kv">
+        <div class="k">Frameworks / ferramentas</div>
+        <div class="v">React, Next.js, NestJS, Zod, PostgreSQL · tidymodels, Phoenix · Git, CMake, OpenMP, CI/CD</div>
+      </div>
+      <div class="kv">
+        <div class="k">Areas</div>
+        <div class="v">Aprendizado estatístico e de máquina · computação de alto desempenho / paralela · engenharia de software científico · desenvolvimento web full-stack</div>
+      </div>
+      <div class="kv">
+        <div class="k">Idiomas</div>
+        <div class="v">Espanhol (nativo) · Português (bilíngue) · Inglês (Cambridge FCE, C1)</div>
+      </div>
+    </section>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+---
+import Analytics from "../components/Analytics.astro";
+
+interface Props {
+  lang: string;
+  title: string;
+  description: string;
+  canonical: string;
+  active: "en" | "es" | "pt";
+  backHref?: string;
+  backLabel?: string;
+  printLabel?: string;
+  langLabel?: string;
+}
+const {
+  lang,
+  title,
+  description,
+  canonical,
+  active,
+  backHref = "/",
+  backLabel = "← andresvidal.dev",
+  printLabel = "Print / Save as PDF",
+  langLabel = "Language",
+} = Astro.props;
+
+const hreflangs = [
+  { code: "en", href: "https://andresvidal.dev/cv/" },
+  { code: "es", href: "https://andresvidal.dev/es/cv/" },
+  { code: "pt", href: "https://andresvidal.dev/pt/cv/" },
+];
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      (function () { try { var t = localStorage.getItem("theme"); if (t === "dark" || t === "light") document.documentElement.setAttribute("data-theme", t); } catch (e) {} })();
+      function toggleTheme() { var d = document.documentElement, c = d.getAttribute("data-theme"), k = c ? c === "dark" : matchMedia("(prefers-color-scheme: dark)").matches, n = k ? "light" : "dark"; d.setAttribute("data-theme", n); try { localStorage.setItem("theme", n); } catch (e) {} }
+    </script>
+    <title>{title}</title>
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="index, follow" />
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {hreflangs.map((h) => <link rel="alternate" hreflang={h.code} href={h.href} />)}
+    <link rel="stylesheet" href="/cv.css" />
+    <Analytics />
+  </head>
+  <body>
+    <div class="toolbar">
+      <a href={backHref}>{backLabel}</a>
+      <div class="tb-right">
+        <nav class="langbar" aria-label={langLabel}>
+          <a href="/cv/" aria-current={active === "en" ? "true" : undefined}>EN</a>
+          <a href="/es/cv/" aria-current={active === "es" ? "true" : undefined}>ES</a>
+          <a href="/pt/cv/" aria-current={active === "pt" ? "true" : undefined}>PT</a> <button class="themebtn" type="button" onclick="toggleTheme()" aria-label="Toggle light or dark theme"><span class="sun"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 1.5v2.5M12 20v2.5M3.5 12H1M23 12h-2.5M5 5l1.7 1.7M17.3 17.3 19 19M19 5l-1.7 1.7M6.7 17.3 5 19"></path></svg></span><span class="moon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg></span></button>
+        </nav>
+        <button class="btn-print" onclick="window.print()">{printLabel}</button>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <slot />
+    </div>
+  </body>
+</html>

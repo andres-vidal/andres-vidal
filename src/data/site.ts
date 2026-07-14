@@ -1,0 +1,1 @@
+export const CLOUDFLARE_BEACON_TOKEN = "752fbcad646e4703a96b59684a21d97b";

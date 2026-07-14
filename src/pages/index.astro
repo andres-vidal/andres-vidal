@@ -1,0 +1,166 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import RecentPosts from "../components/RecentPosts.astro";
+
+const hasPosts = (await getCollection("blog", ({ data }) => !data.draft)).length > 0;
+---
+<Base
+  lang="en"
+  title="Andrés Vidal · Computer Scientist & Statistician"
+  description="Andrés Vidal, computer scientist and statistician in Montevideo, Uruguay. Bridging statistical machine-learning research and fast, reliable software."
+  canonical="https://andresvidal.dev/"
+  ogDescription="Computer scientist and statistician. Bridging statistical machine-learning research and fast, reliable software."
+  active="en"
+>
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Montevideo, Uruguay · Computer Scientist &amp; Statistician</p>
+      <h1 class="name">Andrés Vidal</h1>
+      <p class="thesis">I work to bridge the gap between <b>statistical machine-learning research</b> and software that's fast and reliable.</p>
+      <nav class="idrow">
+        <a href="mailto:andres@andresvidal.dev"><svg class="ic"><use href="#icon-mail" /></svg>andres@andresvidal.dev</a>
+        <a href="https://github.com/andres-vidal"><svg class="ic"><use href="#icon-github" /></svg>GitHub</a>
+        <a href="https://www.linkedin.com/in/andresvidalberriel/"><svg class="ic"><use href="#icon-linkedin" /></svg>LinkedIn</a>
+        <a href="https://orcid.org/0009-0008-6350-7585"><svg class="ic"><use href="#icon-orcid" /></svg>ORCID</a>
+        <a href="/cv/"><svg class="ic"><use href="#icon-doc" /></svg>CV</a>
+        {hasPosts && <a href="/blog/"><svg class="ic"><use href="#icon-pen" /></svg>Blog</a>}
+      </nav>
+    </div>
+  </header>
+
+  <section id="about">
+    <div class="wrap" style="padding:0">
+      <div class="rule"></div>
+      <p class="eyebrow" style="margin-top:26px">About</p>
+      <div class="about-grid">
+        <figure class="portrait">
+          <img src="/andres.jpg" alt="Andrés Vidal" width="200" height="250" />
+        </figure>
+        <div class="lede">
+          <p>I'm a Uruguayan <b>computer scientist and statistician</b>, trained at Universidad de la República in Montevideo (Ingeniería en Computación, 2022), where I'm also finishing a BSc in Statistics. I've published research in distributed deep generative models, and my work sits at the intersection of <b>statistical learning</b>, <b>algorithm design</b>, and <b>high-performance computing</b>.</p>
+          <p>Alongside research, I've spent <b>6+ years building production software</b> for United States clients as a Senior Software Engineer at WyeWorks, where I focus on framework and interface design and help shape technical direction. What I do best is turn tangled problems into <b>clean, composable abstractions</b>. I bring that same rigor and craft to <b>research software</b>: statistical methods, implemented to be fast, tested, and reproducible.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <RecentPosts lang="en" />
+
+  <section id="research">
+    <div class="wrap" style="padding:0">
+      <div class="rule"></div>
+      <p class="eyebrow" style="margin-top:26px">Research &amp; Publications</p>
+      <div class="reflist">
+        <div class="ref">
+          <span class="title">Aumentación de conjuntos de datos utilizando redes neuronales generativas profundas distribuidas: exploración del uso de algoritmos coevolutivos multiobjetivo en busca de mejoras en la diversidad de las muestras generadas</span>
+          <span class="authors">Computer Engineering thesis, with A. Mautone and G. Ripa · Advisor: S. Nesmachnow</span>
+          <span class="venue"><span class="tag-venue">Universidad de la República · 2022</span> <a href="https://www.colibri.udelar.edu.uy/jspui/handle/20.500.12008/34371">Colibrí ↗</a></span>
+        </div>
+        <p class="sublabel">Peer-reviewed publications · co-authored</p>
+        <div class="ref">
+          <span class="title">Parallel-Distributed Implementation of the Lipizzaner Framework for Multiobjective Coevolutionary Training of Generative Adversarial Networks</span>
+          <span class="authors">S. Nesmachnow, J. Toutouh, A. Mautone, G. Ripa, <b>A. Vidal</b></span>
+          <span class="venue"><span class="tag-venue">Springer · CARLA 2023</span> <a href="https://doi.org/10.1007/978-3-031-52186-7_7">doi ↗</a></span>
+        </div>
+        <div class="ref">
+          <span class="title">Multiobjective coevolutionary training of Generative Adversarial Networks</span>
+          <span class="authors">A. Mautone, G. Ripa, <b>A. Vidal</b>, S. Nesmachnow, J. Toutouh</span>
+          <span class="venue"><span class="tag-venue">ACM · GECCO Companion 2023</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="wrap" style="padding:0">
+      <div class="rule"></div>
+      <p class="eyebrow" style="margin-top:26px">Selected Work</p>
+      <div class="projects">
+        <article class="proj feature">
+          <h3><span class="kicker">Flagship · research software</span>ppforest2</h3>
+          <div class="links">
+            <a href="https://github.com/andres-vidal/ppforest2">source ↗</a>
+            <a href="https://andres-vidal.github.io/ppforest2/">docs ↗</a>
+          </div>
+          <p>A fast, memory-efficient implementation of <b>Projection Pursuit Random Forests</b>: a C++ core with R and CLI interfaces, and a modern successor to the R <code>PPforest</code> package. Oblique splits, multi-threaded training, and reproducible golden tests. Submitted to CRAN. My Statistics thesis project.</p>
+          <div class="tech"><span>C++</span><span>R</span><span>OpenMP</span><span>tidymodels</span><span>CI · coverage</span><span>Doxygen · pkgdown</span></div>
+        </article>
+        <article class="proj">
+          <h3>Richard &amp; Isabel Burton Platform</h3>
+          <div class="links"><a href="https://github.com/andres-vidal/richardburton">source ↗</a></div>
+          <p>A full-stack platform cataloguing English translations of Brazilian literature. Grown from a Java (JSF/JPA) technical-degree project into a React + Elixir/Phoenix platform, INPI-registered, and now an ongoing volunteer research collaboration with IFRS&nbsp;Canoas.</p>
+          <div class="tech"><span>Elixir</span><span>Phoenix</span><span>TypeScript</span><span>React · Next.js</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="toolbox">
+    <div class="wrap" style="padding:0">
+      <div class="rule"></div>
+      <p class="eyebrow" style="margin-top:26px">Toolbox</p>
+      <div class="chips-row"><span>TypeScript</span><span>React</span><span>Next.js</span><span>NestJS</span><span>Zod</span><span>PostgreSQL</span><span>Elixir · Phoenix</span><span>C++ · HPC</span><span>R</span><span>Python</span><span>Statistics / ML</span></div>
+      <p class="langs"><b>Languages:</b> Spanish (native), Portuguese (bilingual), English (Cambridge FCE, C1).</p>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap" style="padding:0">
+      <div class="rule"></div>
+      <p class="eyebrow" style="margin-top:26px">Experience</p>
+      <div class="rows">
+        <div class="row">
+          <div class="when">Since 2020</div>
+          <div class="what">
+            <strong>Senior Software Engineer</strong>, <span class="org"><a href="https://www.wyeworks.com/" target="_blank" rel="noopener">WyeWorks</a></span>
+            <span class="note">Full-stack production web apps for US clients in TypeScript (React, Next.js, NestJS), from real-time collaborative ed-tech (React + CRDTs) to a schema-driven form framework (React + Zod). I also designed and ran WyeWorks' internal onboarding program.</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="when">Since 2013</div>
+          <div class="what"><strong>Research Assistant</strong>, <a href="https://ifrs.edu.br/canoas/" target="_blank" rel="noopener">IFRS Campus Canoas</a><span class="note">Held Scientific Initiation research scholarships (CNPq, IFRS) on interdisciplinary projects that applied software to the humanities and education: Brazilian literature in translation (which grew into the Richard Burton platform) and educational robotics. Also taught occasional short courses (web technologies 2020; Elixir/Phoenix 2023).</span></div>
+        </div>
+      </div>
+
+      <p class="eyebrow" style="margin:40px 0 0">Education</p>
+      <div class="rows" style="margin-top:14px">
+        <div class="row">
+          <div class="when">Upcoming</div>
+          <div class="what"><strong>MSc</strong>, <span class="org"><a href="https://www.udelar.edu.uy/" target="_blank" rel="noopener">Universidad de la República</a></span>, Uruguay<span class="note">Beginning a Master's at the Faculty of Engineering (machine learning / applied mathematics).</span></div>
+        </div>
+        <div class="row">
+          <div class="when">Ongoing</div>
+          <div class="what"><strong>BSc in Statistics</strong> (Technology profile), <span class="org"><a href="https://www.udelar.edu.uy/" target="_blank" rel="noopener">Universidad de la República</a></span>, Uruguay<span class="note">Statistical learning, multivariate analysis, and mathematical modelling.</span></div>
+        </div>
+        <div class="row">
+          <div class="when">2022</div>
+          <div class="what"><strong>Computer Science &amp; Engineering</strong> (Ingeniería en Computación), <span class="org"><a href="https://www.udelar.edu.uy/" target="_blank" rel="noopener">Universidad de la República</a></span>, Uruguay<span class="note">Thesis on distributed deep generative models.</span></div>
+        </div>
+      </div>
+
+      <p class="eyebrow" style="margin:40px 0 0">Other</p>
+      <div class="rows" style="margin-top:14px">
+        <div class="row">
+          <div class="when">2015</div>
+          <div class="what"><strong>Technical Diploma in Systems Analysis &amp; Development</strong> (orig. Técnico em Informática), <a href="https://ifrs.edu.br/canoas/" target="_blank" rel="noopener">IFRS Campus Canoas</a>, Brazil</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="wrap" style="padding:0">
+      <div class="rule"></div>
+      <p class="eyebrow" style="margin-top:26px">Get in touch</p>
+      <p class="big">Research software, ML systems, or a good problem?<br /><a href="mailto:andres@andresvidal.dev">andres@andresvidal.dev</a></p>
+      <div class="links">
+        <a href="mailto:andres@andresvidal.dev"><svg class="ic"><use href="#icon-mail" /></svg>Email</a>
+        <a href="https://github.com/andres-vidal"><svg class="ic"><use href="#icon-github" /></svg>GitHub · andres-vidal</a>
+        <a href="https://www.linkedin.com/in/andresvidalberriel/"><svg class="ic"><use href="#icon-linkedin" /></svg>LinkedIn · andresvidalberriel</a>
+        <a href="https://orcid.org/0009-0008-6350-7585"><svg class="ic"><use href="#icon-orcid" /></svg>ORCID · 0009-0008-6350-7585</a>
+        <a href="/cv/"><svg class="ic"><use href="#icon-doc" /></svg>CV</a>
+      </div>
+    </div>
+  </section>
+</Base>

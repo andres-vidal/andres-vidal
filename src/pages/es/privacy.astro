@@ -1,0 +1,25 @@
+---
+import Base from "../../layouts/Base.astro";
+const langPaths = { en: "/privacy/", es: "/es/privacy/", pt: "/pt/privacy/" };
+---
+<Base
+  lang="es"
+  title="Privacidad · Andrés Vidal"
+  description="Nota de privacidad de andresvidal.dev: Cloudflare Web Analytics sin cookies, sin rastreo personal."
+  canonical="https://andresvidal.dev/es/privacy/"
+  active="es"
+  langLabel="Idioma"
+  langPaths={langPaths}
+  backHref="/es/"
+>
+  <section>
+    <div class="wrap" style="padding:0">
+      <div class="legal">
+        <h1>Privacidad</h1>
+        <p class="legal-sub">andresvidal.dev · actualizado en julio de 2026</p>
+        <p>Este sitio utiliza <b>Cloudflare Web Analytics</b> para comprender el tráfico de forma agregada — vistas de página, orígenes de acceso y similares. <b>No utiliza cookies</b>: no almacena nada en el dispositivo, no rastrea la navegación entre sitios ni recolecta información de identificación personal. Las visitas se contabilizan sin cookies ni fingerprinting. Para más detalles, consulte la <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">política de privacidad de Cloudflare</a>.</p>
+        <p>No se utilizan otras herramientas de análisis o rastreo. Ante cualquier consulta, escriba a <a href="mailto:andres@andresvidal.dev">andres@andresvidal.dev</a>.</p>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,39 @@
+---
+import { getCollection } from "astro:content";
+
+interface Props {
+  lang: "en" | "es" | "pt";
+}
+const { lang } = Astro.props;
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const t = {
+  en: { eyebrow: "Writing", all: "All writing →" },
+  es: { eyebrow: "Escritos", all: "Todos los escritos →" },
+  pt: { eyebrow: "Escritos", all: "Todos os textos →" },
+}[lang];
+const locale = { en: "en-US", es: "es-ES", pt: "pt-BR" }[lang];
+const fmt = (d: Date) =>
+  d.toLocaleDateString(locale, { year: "numeric", month: "short", timeZone: "UTC" });
+---
+{posts.length > 0 && (
+  <section id="writing">
+    <div class="wrap" style="padding:0">
+      <div class="rule"></div>
+      <p class="eyebrow" style="margin-top:26px">{t.eyebrow}</p>
+      <div class="recent">
+        {posts.map((post) => (
+          <a class="recent-card" href={`/blog/${post.id}/`}>
+            <span class="recent-date">{fmt(post.data.pubDate)}</span>
+            <span class="recent-title">{post.data.subtitle ? `${post.data.title}: ${post.data.subtitle}` : post.data.title}</span>
+            <span class="recent-desc">{post.data.description}</span>
+          </a>
+        ))}
+      </div>
+      <a class="recent-all" href="/blog/">{t.all}</a>
+    </div>
+  </section>
+)}

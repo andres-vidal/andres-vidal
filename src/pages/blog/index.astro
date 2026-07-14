@@ -1,0 +1,50 @@
+---
+import { getCollection } from "astro:content";
+import BlogPost from "../../layouts/BlogPost.astro";
+import PostFilter from "../../components/PostFilter.astro";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort((a, b) =>
+  a.localeCompare(b),
+);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
+---
+<BlogPost
+  title="Writing"
+  description="Notes on research software, statistical machine learning, and the projects I build."
+  canonical="https://andresvidal.dev/blog/"
+  isIndex={true}
+>
+  <div class="blog-index">
+    <p class="eyebrow">Writing</p>
+    <h1>Notes &amp; project write-ups</h1>
+    <p class="index-lede">Longer notes on the projects I build, mostly where statistical methods meet fast, reliable software.</p>
+
+    <PostFilter tags={allTags} />
+
+    <div class="post-list">
+      {posts.map((post) => (
+        <a
+          class="post-card"
+          href={`/blog/${post.id}/`}
+          data-tags={post.data.tags.join("|")}
+          data-title={`${post.data.title} ${post.data.subtitle ?? ""}`.toLowerCase()}
+        >
+          <p class="post-card-meta">
+            <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
+            {post.data.tags.length > 0 && <span> · {post.data.tags.join(" · ")}</span>}
+          </p>
+          <h2 class="post-card-title">{post.data.title}</h2>
+          {post.data.subtitle && <p class="post-card-subtitle">{post.data.subtitle}</p>}
+          <p class="post-card-desc">{post.data.description}</p>
+        </a>
+      ))}
+    </div>
+    <p class="tag-empty" hidden>No posts match that filter.</p>
+  </div>
+</BlogPost>

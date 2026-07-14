@@ -1,0 +1,14 @@
+---
+import { CLOUDFLARE_BEACON_TOKEN } from "../data/site";
+// Only ship the beacon in production builds, and only when a token is set —
+// keeps `astro dev` clean and avoids noise before analytics is configured.
+const enabled = import.meta.env.PROD && CLOUDFLARE_BEACON_TOKEN;
+---
+{enabled && (
+  <script
+    is:inline
+    type="module"
+    src="https://static.cloudflareinsights.com/beacon.min.js"
+    data-cf-beacon={JSON.stringify({ token: CLOUDFLARE_BEACON_TOKEN })}
+  ></script>
+)}

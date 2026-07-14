@@ -1,0 +1,21 @@
+---
+interface Props { tags: string[]; }
+const { tags } = Astro.props;
+---
+<div class="post-filter">
+  <input
+    type="search"
+    class="post-search"
+    placeholder="Search by title…"
+    aria-label="Search posts by title"
+    autocomplete="off"
+  />
+  {tags.length > 1 && (
+    <div class="tag-filter" role="group" aria-label="Filter posts by tag">
+      <button class="tag-chip is-active" data-tag="" aria-pressed="true">All</button>
+      {tags.map((tag) => (
+        <button class="tag-chip" data-tag={tag} aria-pressed="false">{tag}</button>
+      ))}
+    </div>
+  )}
+</div>

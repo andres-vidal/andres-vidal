@@ -1,0 +1,183 @@
+---
+import SeriesNav from "../components/SeriesNav.astro";
+import Analytics from "../components/Analytics.astro";
+import type { SeriesNav as SeriesNavData } from "../lib/series";
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  description: string;
+  canonical: string;
+  pubDate?: Date;
+  updatedDate?: Date;
+  tags?: string[];
+  isIndex?: boolean;
+  seriesNav?: SeriesNavData | null;
+}
+const {
+  title,
+  subtitle,
+  description,
+  canonical,
+  pubDate,
+  updatedDate,
+  tags = [],
+  isIndex = false,
+  seriesNav = null,
+} = Astro.props;
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
+
+// Full title (title + subtitle) for <title>, OG, and structured data — keeps the
+// long descriptive form for SEO while the header can split it into two lines.
+const fullTitle = subtitle ? `${title}: ${subtitle}` : title;
+const ogTitle = isIndex ? "Andrés Vidal · Writing" : fullTitle;
+
+const articleLd = !isIndex && pubDate
+  ? {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: fullTitle,
+      description,
+      url: canonical,
+      datePublished: pubDate.toISOString(),
+      ...(updatedDate ? { dateModified: updatedDate.toISOString() } : {}),
+      author: { "@type": "Person", name: "Andrés Vidal", url: "https://andresvidal.dev/" },
+      image: "https://andresvidal.dev/andres.jpg",
+      inLanguage: "en",
+    }
+  : null;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      (function () { try { var t = localStorage.getItem("theme"); if (t === "dark" || t === "light") document.documentElement.setAttribute("data-theme", t); } catch (e) {} })();
+      function toggleTheme() { var d = document.documentElement, c = d.getAttribute("data-theme"), k = c ? c === "dark" : matchMedia("(prefers-color-scheme: dark)").matches, n = k ? "light" : "dark"; d.setAttribute("data-theme", n); try { localStorage.setItem("theme", n); } catch (e) {} }
+    </script>
+    <title>{fullTitle} · Andrés Vidal</title>
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="index, follow" />
+    <meta name="description" content={description} />
+    <meta name="author" content="Andrés Vidal" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content={isIndex ? "website" : "article"} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="https://andresvidal.dev/andres.jpg" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/blog.css" />
+    {articleLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(articleLd)} />}
+    <Analytics />
+  </head>
+  <body>
+    <div class="wrap">
+      <nav class="langbar blog-bar" aria-label="Site">
+        <a href="/">← andresvidal.dev</a>
+        <span class="bar-spacer"></span>
+        <a href="/blog/" aria-current={isIndex ? "true" : undefined}>Writing</a> <button class="themebtn" type="button" onclick="toggleTheme()" aria-label="Toggle light or dark theme"><span class="sun"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 1.5v2.5M12 20v2.5M3.5 12H1M23 12h-2.5M5 5l1.7 1.7M17.3 17.3 19 19M19 5l-1.7 1.7M6.7 17.3 5 19"></path></svg></span><span class="moon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg></span></button>
+      </nav>
+
+      {isIndex ? (
+        <slot />
+      ) : (
+        <article class="post">
+          <header class="post-head">
+            {pubDate && (
+              <p class="eyebrow post-meta">
+                <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
+                {tags.length > 0 && <span> · {tags.join(" · ")}</span>}
+              </p>
+            )}
+            <h1 class="post-title">{title}</h1>
+            {subtitle && <p class="post-subtitle">{subtitle}</p>}
+            <p class="post-lede">{description}</p>
+          </header>
+          <div class="prose">
+            <slot />
+          </div>
+          {seriesNav && <SeriesNav nav={seriesNav} />}
+          <footer class="post-foot">
+            <a href="/blog/">← All writing</a>
+          </footer>
+        </article>
+      )}
+
+      <footer>
+        <span>© 2026 Andrés Vidal</span>
+        <span>Montevideo, Uruguay · andresvidal.dev · <a class="footer-link" href="/privacy/">Privacy</a></span>
+      </footer>
+    </div>
+    <script is:inline>
+      (function () {
+        var filter = document.querySelector(".post-filter");
+        if (!filter) return;
+        var chips = Array.prototype.slice.call(filter.querySelectorAll(".tag-chip"));
+        var input = filter.querySelector(".post-search");
+        var cards = Array.prototype.slice.call(document.querySelectorAll(".post-card[data-tags]"));
+        var empty = document.querySelector(".tag-empty");
+        var activeTags = [];
+        function setChips() {
+          chips.forEach(function (c) {
+            var t = c.dataset.tag || "";
+            var on = t ? activeTags.indexOf(t) !== -1 : activeTags.length === 0;
+            c.classList.toggle("is-active", on);
+            c.setAttribute("aria-pressed", on ? "true" : "false");
+          });
+        }
+        function apply() {
+          var q = ((input && input.value) || "").trim().toLowerCase();
+          var shown = 0;
+          cards.forEach(function (card) {
+            var tags = (card.dataset.tags || "").split("|");
+            var title = card.dataset.title || "";
+            var tagOk = activeTags.every(function (t) { return tags.indexOf(t) !== -1; });
+            var show = tagOk && (!q || title.indexOf(q) !== -1);
+            card.hidden = !show;
+            if (show) shown++;
+          });
+          if (empty) empty.hidden = shown !== 0;
+        }
+        function syncUrl() {
+          var params = new URLSearchParams();
+          if (activeTags.length) params.set("tags", activeTags.join(","));
+          var qv = ((input && input.value) || "").trim();
+          if (qv) params.set("q", qv);
+          var qs = params.toString();
+          try { history.replaceState(null, "", qs ? location.pathname + "?" + qs : location.pathname); } catch (e) {}
+        }
+        chips.forEach(function (c) {
+          c.addEventListener("click", function () {
+            var t = c.dataset.tag || "";
+            if (!t) {
+              activeTags = [];
+            } else {
+              var i = activeTags.indexOf(t);
+              if (i === -1) activeTags.push(t); else activeTags.splice(i, 1);
+            }
+            setChips();
+            syncUrl();
+            apply();
+          });
+        });
+        if (input) input.addEventListener("input", function () { syncUrl(); apply(); });
+        var params0 = new URLSearchParams(location.search);
+        var tagsParam = params0.get("tags") || "";
+        var initQ = params0.get("q") || "";
+        if (tagsParam) {
+          activeTags = tagsParam.split(",").filter(function (t) {
+            return chips.some(function (c) { return (c.dataset.tag || "") === t; });
+          });
+        }
+        if (initQ && input) input.value = initQ;
+        setChips();
+        apply();
+      })();
+    </script>
+  </body>
+</html>

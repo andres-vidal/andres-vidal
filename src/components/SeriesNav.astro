@@ -1,0 +1,33 @@
+---
+import type { SeriesNav } from "../lib/series";
+interface Props { nav: SeriesNav; }
+const { nav } = Astro.props;
+const full = (p: SeriesNav["posts"][number]) =>
+  p.data.subtitle ? `${p.data.title}: ${p.data.subtitle}` : p.data.title;
+---
+<nav class="series-nav" aria-label="Series navigation">
+  <p class="series-eyebrow">{nav.label} · part {nav.index + 1} of {nav.total}</p>
+  <ol class="series-list">
+    {nav.posts.map((p, i) => (
+      <li class={i === nav.index ? "is-current" : undefined}>
+        {i === nav.index ? (
+          <span aria-current="true">{full(p)}</span>
+        ) : (
+          <a href={`/blog/${p.id}/`}>{full(p)}</a>
+        )}
+      </li>
+    ))}
+  </ol>
+  {(nav.prev || nav.next) && (
+    <div class="series-dirs">
+      {nav.prev ? (
+        <a class="series-prev" href={`/blog/${nav.prev.id}/`}>← {nav.prev.data.title}</a>
+      ) : (
+        <span></span>
+      )}
+      {nav.next && (
+        <a class="series-next" href={`/blog/${nav.next.id}/`}>{nav.next.data.title} →</a>
+      )}
+    </div>
+  )}
+</nav>

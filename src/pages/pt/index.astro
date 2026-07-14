@@ -1,9 +1,10 @@
 ---
 import { getCollection } from "astro:content";
-import Base from "../../layouts/Base.astro";
 import RecentPosts from "../../components/RecentPosts.astro";
+import Base from "../../layouts/Base.astro";
+import { isPublished } from "../../lib/posts";
 
-const hasPosts = (await getCollection("blog", ({ data }) => !data.draft)).length > 0;
+const hasPosts = (await getCollection("blog", isPublished)).length > 0;
 ---
 <Base
   lang="pt"

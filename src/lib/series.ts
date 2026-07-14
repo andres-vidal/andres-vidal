@@ -1,5 +1,5 @@
 import { getCollection, type CollectionEntry } from "astro:content";
-import { series as manifest } from "../data/series";
+import { isPublished } from "./posts";
 
 export interface SeriesNav {
   label: string;
@@ -11,28 +11,26 @@ export interface SeriesNav {
 }
 
 // Returns the series-navigation context for a post, or null if it is not part
-// of a (multi-post) series. Draft posts are skipped, so prev/next only ever
-// point to pages that actually exist.
+// of a (multi-post) series. The series and its order live in each post's own
+// frontmatter (`series` + `seriesOrder`); membership is derived at build time,
+// so there is no separate manifest to keep in sync. Only visible posts are
+// listed, so prev/next never point to a page that was not generated.
 export async function getSeriesNav(
   post: CollectionEntry<"blog">
 ): Promise<SeriesNav | null> {
-  const found = Object.values(manifest).find((s) => s.posts.includes(post.id));
-  if (!found) return null;
+  const label = post.data.series;
+  if (!label) return null;
 
-  const all = await getCollection("blog");
-  const byId = new Map(all.map((p) => [p.id, p]));
-  const published = new Set(all.filter((p) => !p.data.draft).map((p) => p.id));
-
-  const ordered = found.posts
-    .filter((id) => published.has(id))
-    .map((id) => byId.get(id))
-    .filter((p): p is CollectionEntry<"blog"> => Boolean(p));
+  const ordered = (await getCollection("blog"))
+    .filter(isPublished)
+    .filter((p) => p.data.series === label)
+    .sort((a, b) => (a.data.seriesOrder ?? 0) - (b.data.seriesOrder ?? 0));
 
   const index = ordered.findIndex((p) => p.id === post.id);
   if (index === -1 || ordered.length < 2) return null;
 
   return {
-    label: found.label,
+    label,
     posts: ordered,
     index,
     total: ordered.length,

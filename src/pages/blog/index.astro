@@ -2,8 +2,9 @@
 import { getCollection } from "astro:content";
 import BlogPost from "../../layouts/BlogPost.astro";
 import PostFilter from "../../components/PostFilter.astro";
+import { isPublished } from "../../lib/posts";
 
-const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+const posts = (await getCollection("blog", isPublished)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 

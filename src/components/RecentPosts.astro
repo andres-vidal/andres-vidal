@@ -1,12 +1,13 @@
 ---
 import { getCollection } from "astro:content";
+import { isPublished } from "../lib/posts";
 
 interface Props {
   lang: "en" | "es" | "pt";
 }
 const { lang } = Astro.props;
 
-const posts = (await getCollection("blog", ({ data }) => !data.draft))
+const posts = (await getCollection("blog", isPublished))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
 

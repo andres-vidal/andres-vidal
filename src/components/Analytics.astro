@@ -4,11 +4,14 @@ import { CLOUDFLARE_BEACON_TOKEN } from "../data/site";
 // keeps `astro dev` clean and avoids noise before analytics is configured.
 const enabled = import.meta.env.PROD && CLOUDFLARE_BEACON_TOKEN;
 ---
-{enabled && (
-  <script
-    is:inline
-    type="module"
-    src="https://static.cloudflareinsights.com/beacon.min.js"
-    data-cf-beacon={JSON.stringify({ token: CLOUDFLARE_BEACON_TOKEN })}
-  ></script>
-)}
+
+{
+  enabled && (
+    <script
+      is:inline
+      type="module"
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon={JSON.stringify({ token: CLOUDFLARE_BEACON_TOKEN })}
+    />
+  )
+}

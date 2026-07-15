@@ -33,7 +33,7 @@ export const postPath = (lang: string, key: string) =>
 // All published language versions of a post, ordered en → es → pt. Length 1
 // means "no translations" (the caller renders no switcher / no hreflang).
 export async function getTranslations(
-  post: CollectionEntry<"blog">
+  post: CollectionEntry<"blog">,
 ): Promise<PostTranslation[]> {
   const key = postKey(post);
   return (await getCollection("blog", isPublished))

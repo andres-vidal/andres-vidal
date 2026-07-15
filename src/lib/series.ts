@@ -16,7 +16,7 @@ export interface SeriesNav {
 // so there is no separate manifest to keep in sync. Only visible posts are
 // listed, so prev/next never point to a page that was not generated.
 export async function getSeriesNav(
-  post: CollectionEntry<"blog">
+  post: CollectionEntry<"blog">,
 ): Promise<SeriesNav | null> {
   const label = post.data.series;
   if (!label) return null;

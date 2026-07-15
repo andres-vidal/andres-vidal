@@ -2,6 +2,7 @@
 import SeriesNav from "../components/SeriesNav.astro";
 import Analytics from "../components/Analytics.astro";
 import type { SeriesNav as SeriesNavData } from "../lib/series";
+import type { PostLang, PostTranslation } from "../lib/posts";
 
 interface Props {
   title: string;
@@ -13,6 +14,8 @@ interface Props {
   tags?: string[];
   isIndex?: boolean;
   seriesNav?: SeriesNavData | null;
+  lang?: PostLang;
+  translations?: PostTranslation[];
 }
 const {
   title,
@@ -24,7 +27,18 @@ const {
   tags = [],
   isIndex = false,
   seriesNav = null,
+  lang = "en",
+  translations = [],
 } = Astro.props;
+
+const origin = Astro.site!.origin; // from `site` in astro.config
+// More than one language version → render a switcher and hreflang alternates.
+const hasTranslations = translations.length > 1;
+const xDefault =
+  translations.find((t) => t.lang === "en")?.path ?? translations[0]?.path;
+const homeHref = lang === "en" ? "/" : `/${lang}/`;
+const canonicalUrl = new URL(canonical, Astro.site).href;
+const ogImage = `${origin}/andres.jpg`;
 
 const fmt = (d: Date) =>
   d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
@@ -40,17 +54,17 @@ const articleLd = !isIndex && pubDate
       "@type": "BlogPosting",
       headline: fullTitle,
       description,
-      url: canonical,
+      url: canonicalUrl,
       datePublished: pubDate.toISOString(),
       ...(updatedDate ? { dateModified: updatedDate.toISOString() } : {}),
-      author: { "@type": "Person", name: "Andrés Vidal", url: "https://andresvidal.dev/" },
-      image: "https://andresvidal.dev/andres.jpg",
-      inLanguage: "en",
+      author: { "@type": "Person", name: "Andrés Vidal", url: `${origin}/` },
+      image: ogImage,
+      inLanguage: lang,
     }
   : null;
 ---
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -59,16 +73,22 @@ const articleLd = !isIndex && pubDate
       function toggleTheme() { var d = document.documentElement, c = d.getAttribute("data-theme"), k = c ? c === "dark" : matchMedia("(prefers-color-scheme: dark)").matches, n = k ? "light" : "dark"; d.setAttribute("data-theme", n); try { localStorage.setItem("theme", n); } catch (e) {} }
     </script>
     <title>{fullTitle} · Andrés Vidal</title>
-    <link rel="canonical" href={canonical} />
+    <link rel="canonical" href={canonicalUrl} />
+    {hasTranslations && translations.map((t) => (
+      <link rel="alternate" hreflang={t.lang} href={`${origin}${t.path}`} />
+    ))}
+    {hasTranslations && xDefault && (
+      <link rel="alternate" hreflang="x-default" href={`${origin}${xDefault}`} />
+    )}
     <meta name="robots" content="index, follow" />
     <meta name="description" content={description} />
     <meta name="author" content="Andrés Vidal" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta property="og:type" content={isIndex ? "website" : "article"} />
-    <meta property="og:url" content={canonical} />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="https://andresvidal.dev/andres.jpg" />
+    <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary" />
     <link rel="stylesheet" href="/styles.css" />
     <link rel="stylesheet" href="/blog.css" />
@@ -78,8 +98,15 @@ const articleLd = !isIndex && pubDate
   <body>
     <div class="wrap">
       <nav class="langbar blog-bar" aria-label="Site">
-        <a href="/">← andresvidal.dev</a>
+        <a href={homeHref}>← andresvidal.dev</a>
         <span class="bar-spacer"></span>
+        {hasTranslations && (
+          <span class="blog-langs">
+            {translations.map((t) => (
+              <a href={t.path} aria-current={t.lang === lang ? "true" : undefined}>{t.lang.toUpperCase()}</a>
+            ))}
+          </span>
+        )}
         <a href="/blog/" aria-current={isIndex ? "true" : undefined}>Writing</a> <button class="themebtn" type="button" onclick="toggleTheme()" aria-label="Toggle light or dark theme"><span class="sun"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 1.5v2.5M12 20v2.5M3.5 12H1M23 12h-2.5M5 5l1.7 1.7M17.3 17.3 19 19M19 5l-1.7 1.7M6.7 17.3 5 19"></path></svg></span><span class="moon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg></span></button>
       </nav>
 

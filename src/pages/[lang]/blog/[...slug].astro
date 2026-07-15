@@ -1,20 +1,25 @@
 ---
 import { getCollection, render } from "astro:content";
-import BlogPost from "../../layouts/BlogPost.astro";
-import { getSeriesNav } from "../../lib/series";
-import { isPublished, postKey, getTranslations } from "../../lib/posts";
+import BlogPost from "../../../layouts/BlogPost.astro";
+import { getSeriesNav } from "../../../lib/series";
+import { isPublished, postKey, getTranslations } from "../../../lib/posts";
 
+// Localized article routes. English lives at /blog/<slug>/ (handled by the
+// route one level up); this one emits /<lang>/blog/<slug>/ for every published
+// non-English translation. With no translated content yet, it generates nothing.
 export async function getStaticPaths() {
   const posts = (await getCollection("blog", isPublished)).filter(
-    (p) => p.data.lang === "en",
+    (p) => p.data.lang !== "en",
   );
   return posts.map((post) => ({
-    params: { slug: postKey(post) },
+    params: { lang: post.data.lang, slug: postKey(post) },
     props: { post },
   }));
 }
 
 const { post } = Astro.props;
+const lang = post.data.lang;
+const key = postKey(post);
 const { Content } = await render(post);
 const seriesNav = await getSeriesNav(post);
 const translations = await getTranslations(post);
@@ -23,12 +28,12 @@ const translations = await getTranslations(post);
   title={post.data.title}
   subtitle={post.data.subtitle}
   description={post.data.description}
-  canonical={`/blog/${postKey(post)}/`}
+  canonical={`/${lang}/blog/${key}/`}
   pubDate={post.data.pubDate}
   updatedDate={post.data.updatedDate}
   tags={post.data.tags}
   seriesNav={seriesNav}
-  lang="en"
+  lang={lang}
   translations={translations}
 >
   <Content />

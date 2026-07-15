@@ -2,6 +2,7 @@
 
   .blog-bar { align-items: center; gap: 16px; }
   .blog-bar .bar-spacer { flex: 1; }
+  .blog-bar .blog-langs { display: inline-flex; gap: 12px; }
 
   /* Index */
   .blog-index { max-width: 720px; margin: 0 auto; padding: 48px 0 20px; }
@@ -261,7 +262,7 @@
     content: counter(s);
     position: absolute;
     left: 0;
-    top: 0.05em;
+    top: 0.3em;
     font-family: var(--mono);
     font-size: 0.78rem;
     color: var(--muted);

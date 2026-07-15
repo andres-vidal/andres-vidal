@@ -23,7 +23,7 @@ export async function getSeriesNav(
 
   const ordered = (await getCollection("blog"))
     .filter(isPublished)
-    .filter((p) => p.data.series === label)
+    .filter((p) => p.data.series === label && p.data.lang === post.data.lang)
     .sort((a, b) => (a.data.seriesOrder ?? 0) - (b.data.seriesOrder ?? 0));
 
   const index = ordered.findIndex((p) => p.id === post.id);

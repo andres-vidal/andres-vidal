@@ -24,10 +24,12 @@ const {
   langLabel = "Language",
 } = Astro.props;
 
+const origin = Astro.site!.origin; // from `site` in astro.config
+const canonicalUrl = new URL(canonical, Astro.site).href;
 const hreflangs = [
-  { code: "en", href: "https://andresvidal.dev/cv/" },
-  { code: "es", href: "https://andresvidal.dev/es/cv/" },
-  { code: "pt", href: "https://andresvidal.dev/pt/cv/" },
+  { code: "en", href: `${origin}/cv/` },
+  { code: "es", href: `${origin}/es/cv/` },
+  { code: "pt", href: `${origin}/pt/cv/` },
 ];
 ---
 <!doctype html>
@@ -40,7 +42,7 @@ const hreflangs = [
       function toggleTheme() { var d = document.documentElement, c = d.getAttribute("data-theme"), k = c ? c === "dark" : matchMedia("(prefers-color-scheme: dark)").matches, n = k ? "light" : "dark"; d.setAttribute("data-theme", n); try { localStorage.setItem("theme", n); } catch (e) {} }
     </script>
     <title>{title}</title>
-    <link rel="canonical" href={canonical} />
+    <link rel="canonical" href={canonicalUrl} />
     <meta name="robots" content="index, follow" />
     <meta name="description" content={description} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />

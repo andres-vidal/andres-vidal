@@ -301,12 +301,24 @@
   }
   .recent-card:hover { border-color: var(--line-strong); }
   .recent-card:hover .recent-title { color: var(--indigo-bright); }
+  .recent-head { display: flex; align-items: center; gap: 8px; }
   .recent-date {
     font-family: var(--mono);
     font-size: 0.66rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
+  }
+  .recent-badge {
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ochre);
+    border: 1px solid var(--ochre);
+    border-radius: 999px;
+    padding: 1px 6px;
+    line-height: 1.45;
   }
   .recent-title {
     font-family: var(--serif);

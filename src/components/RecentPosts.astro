@@ -9,16 +9,22 @@ const { lang } = Astro.props;
 
 const posts = (await getCollection("blog", isPublished))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
+  .slice(0, 6);
 
 const t = {
-  en: { eyebrow: "Writing", all: "All writing →" },
-  es: { eyebrow: "Escritos", all: "Todos los escritos →" },
-  pt: { eyebrow: "Escritos", all: "Todos os textos →" },
+  en: { eyebrow: "Writing", all: "All writing →", badge: "New" },
+  es: { eyebrow: "Escritos", all: "Todos los escritos →", badge: "Nuevo" },
+  pt: { eyebrow: "Escritos", all: "Todos os textos →", badge: "Novo" },
 }[lang];
 const locale = { en: "en-US", es: "es-ES", pt: "pt-BR" }[lang];
 const fmt = (d: Date) =>
   d.toLocaleDateString(locale, { year: "numeric", month: "short", timeZone: "UTC" });
+
+// A post is flagged "new" for this many days after its publication date.
+// Evaluated at build time, so it refreshes on every deploy.
+const NEW_DAYS = 30;
+const now = Date.now();
+const isNew = (d: Date) => (now - d.valueOf()) / 86_400_000 <= NEW_DAYS;
 ---
 {posts.length > 0 && (
   <section id="writing">
@@ -28,7 +34,10 @@ const fmt = (d: Date) =>
       <div class="recent">
         {posts.map((post) => (
           <a class="recent-card" href={`/blog/${post.id}/`}>
-            <span class="recent-date">{fmt(post.data.pubDate)}</span>
+            <span class="recent-head">
+              <span class="recent-date">{fmt(post.data.pubDate)}</span>
+              {isNew(post.data.pubDate) && <span class="recent-badge">{t.badge}</span>}
+            </span>
             <span class="recent-title">{post.data.subtitle ? `${post.data.title}: ${post.data.subtitle}` : post.data.title}</span>
             <span class="recent-desc">{post.data.description}</span>
           </a>

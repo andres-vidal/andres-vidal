@@ -1,0 +1,14 @@
+# Build output & generated types
+dist/
+.astro/
+node_modules/
+
+# Legacy pre-Astro static site (superseded by the Astro build)
+site/
+
+# Lockfile
+package-lock.json
+
+# Blog articles carry hand-tuned inline SVG figures — keep the formatter
+# away from them so it can't reflow or subtly alter the generated markup.
+src/content/blog/

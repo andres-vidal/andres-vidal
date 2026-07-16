@@ -1,5 +1,5 @@
 import { getCollection, type CollectionEntry } from "astro:content";
-import { isPublished } from "./posts";
+import { isPublished, postLang } from "./posts";
 
 export interface SeriesNav {
   label: string;
@@ -23,7 +23,7 @@ export async function getSeriesNav(
 
   const ordered = (await getCollection("blog"))
     .filter(isPublished)
-    .filter((p) => p.data.series === label && p.data.lang === post.data.lang)
+    .filter((p) => p.data.series === label && postLang(p) === postLang(post))
     .sort((a, b) => (a.data.seriesOrder ?? 0) - (b.data.seriesOrder ?? 0));
 
   const index = ordered.findIndex((p) => p.id === post.id);

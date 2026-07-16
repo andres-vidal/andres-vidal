@@ -1,11 +1,14 @@
 ---
 import type { SeriesNav } from "../lib/series";
+import { postKey, postLang, postPath } from "../lib/posts";
 interface Props {
   nav: SeriesNav;
 }
 const { nav } = Astro.props;
 const full = (p: SeriesNav["posts"][number]) =>
   p.data.subtitle ? `${p.data.title}: ${p.data.subtitle}` : p.data.title;
+const href = (p: SeriesNav["posts"][number]) =>
+  postPath(postLang(p), postKey(p));
 ---
 
 <nav class="series-nav" aria-label="Series navigation">
@@ -19,7 +22,7 @@ const full = (p: SeriesNav["posts"][number]) =>
           {i === nav.index ? (
             <span aria-current="true">{full(p)}</span>
           ) : (
-            <a href={`/blog/${p.id}/`}>{full(p)}</a>
+            <a href={href(p)}>{full(p)}</a>
           )}
         </li>
       ))
@@ -29,14 +32,14 @@ const full = (p: SeriesNav["posts"][number]) =>
     (nav.prev || nav.next) && (
       <div class="series-dirs">
         {nav.prev ? (
-          <a class="series-prev" href={`/blog/${nav.prev.id}/`}>
+          <a class="series-prev" href={href(nav.prev)}>
             ← {nav.prev.data.title}
           </a>
         ) : (
           <span />
         )}
         {nav.next && (
-          <a class="series-next" href={`/blog/${nav.next.id}/`}>
+          <a class="series-next" href={href(nav.next)}>
             {nav.next.data.title} →
           </a>
         )}

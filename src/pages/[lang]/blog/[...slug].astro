@@ -2,23 +2,28 @@
 import { getCollection, render } from "astro:content";
 import BlogPost from "../../../layouts/BlogPost.astro";
 import { getSeriesNav } from "../../../lib/series";
-import { isPublished, postKey, getTranslations } from "../../../lib/posts";
+import {
+  isPublished,
+  postKey,
+  postLang,
+  getTranslations,
+} from "../../../lib/posts";
 
 // Localized article routes. English lives at /blog/<slug>/ (handled by the
 // route one level up); this one emits /<lang>/blog/<slug>/ for every published
 // non-English translation. With no translated content yet, it generates nothing.
 export async function getStaticPaths() {
   const posts = (await getCollection("blog", isPublished)).filter(
-    (p) => p.data.lang !== "en",
+    (p) => postLang(p) !== "en",
   );
   return posts.map((post) => ({
-    params: { lang: post.data.lang, slug: postKey(post) },
+    params: { lang: postLang(post), slug: postKey(post) },
     props: { post },
   }));
 }
 
 const { post } = Astro.props;
-const lang = post.data.lang;
+const lang = postLang(post);
 const key = postKey(post);
 const { Content } = await render(post);
 const seriesNav = await getSeriesNav(post);

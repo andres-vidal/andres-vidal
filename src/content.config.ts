@@ -3,7 +3,9 @@ import { z } from "astro/zod";
 import { glob } from "astro/loaders";
 
 const blog = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/blog" }),
+  // One directory per post; one file per language (en.mdx, es.mdx, …).
+  // Language and translation key are derived from the path, not frontmatter.
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/blog" }),
   schema: z.object({
     title: z.string(),
     subtitle: z.string().optional(),
@@ -14,8 +16,6 @@ const blog = defineCollection({
     draft: z.boolean().default(false),
     series: z.string().optional(),
     seriesOrder: z.number().optional(),
-    lang: z.enum(["en", "es", "pt"]).default("en"),
-    translationKey: z.string().optional(),
   }),
 });
 

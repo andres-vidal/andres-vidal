@@ -1,13 +1,15 @@
 ---
 import { getCollection } from "astro:content";
-import { isPublished } from "../lib/posts";
+import { isPublished, postKey, postLang } from "../lib/posts";
 
 interface Props {
   lang: "en" | "es" | "pt";
 }
 const { lang } = Astro.props;
 
+// The blog is English; surface the English posts on every landing.
 const posts = (await getCollection("blog", isPublished))
+  .filter((p) => postLang(p) === "en")
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 6);
 
@@ -41,7 +43,7 @@ const isNew = (d: Date) => (now - d.valueOf()) / 86_400_000 <= NEW_DAYS;
         </p>
         <div class="recent">
           {posts.map((post) => (
-            <a class="recent-card" href={`/blog/${post.id}/`}>
+            <a class="recent-card" href={`/blog/${postKey(post)}/`}>
               <span class="recent-head">
                 <span class="recent-date">{fmt(post.data.pubDate)}</span>
                 {isNew(post.data.pubDate) && (

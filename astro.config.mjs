@@ -1,7 +1,8 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
+import mdx from "@astrojs/mdx";
 
 export default defineConfig({
   site: "https://andresvidal.dev",
-  integrations: [sitemap()],
+  integrations: [mdx(), sitemap()],
 });

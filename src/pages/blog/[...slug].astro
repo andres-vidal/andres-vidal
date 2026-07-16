@@ -2,11 +2,16 @@
 import { getCollection, render } from "astro:content";
 import BlogPost from "../../layouts/BlogPost.astro";
 import { getSeriesNav } from "../../lib/series";
-import { isPublished, postKey, getTranslations } from "../../lib/posts";
+import {
+  isPublished,
+  postKey,
+  postLang,
+  getTranslations,
+} from "../../lib/posts";
 
 export async function getStaticPaths() {
   const posts = (await getCollection("blog", isPublished)).filter(
-    (p) => p.data.lang === "en",
+    (p) => postLang(p) === "en",
   );
   return posts.map((post) => ({
     params: { slug: postKey(post) },

@@ -1,6 +1,6 @@
-import { defineCollection } from "astro:content";
-import { z } from "astro/zod";
 import { glob } from "astro/loaders";
+import { z } from "astro/zod";
+import { defineCollection } from "astro:content";
 
 const blog = defineCollection({
   // One directory per post; one file per language (en.mdx, es.mdx, …).
@@ -16,6 +16,16 @@ const blog = defineCollection({
     draft: z.boolean().default(false),
     series: z.string().optional(),
     seriesOrder: z.number().optional(),
+    glossary: z
+      .record(
+        z.string(),
+        z.object({
+          abbr: z.string().optional(),
+          full: z.string().optional(),
+          def: z.string().optional(),
+        }),
+      )
+      .optional(),
   }),
 });
 

@@ -20,7 +20,7 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, remarkPluginFrontmatter } = await render(post);
 const seriesNav = await getSeriesNav(post);
 const translations = await getTranslations(post);
 ---
@@ -34,6 +34,8 @@ const translations = await getTranslations(post);
   updatedDate={post.data.updatedDate}
   tags={post.data.tags}
   seriesNav={seriesNav}
+  glossaryHtml={remarkPluginFrontmatter?.glossaryHtml}
+  bibliographyHtml={remarkPluginFrontmatter?.bibliographyHtml}
   lang="en"
   translations={translations}
 >

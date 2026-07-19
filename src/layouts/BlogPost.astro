@@ -14,6 +14,8 @@ interface Props {
   tags?: string[];
   isIndex?: boolean;
   seriesNav?: SeriesNavData | null;
+  glossaryHtml?: string | null;
+  bibliographyHtml?: string | null;
   lang?: PostLang;
   translations?: PostTranslation[];
 }
@@ -27,6 +29,8 @@ const {
   tags = [],
   isIndex = false,
   seriesNav = null,
+  glossaryHtml = null,
+  bibliographyHtml = null,
   lang = "en",
   translations = [],
 } = Astro.props;
@@ -209,6 +213,22 @@ const articleLd =
               <slot />
             </div>
             {seriesNav && <SeriesNav nav={seriesNav} />}
+            {(glossaryHtml || bibliographyHtml) && (
+              <div class="post-backmatter">
+                {glossaryHtml && (
+                  <div class="backmatter-block">
+                    <h2>Glossary</h2>
+                    <div class="glossary" set:html={glossaryHtml} />
+                  </div>
+                )}
+                {bibliographyHtml && (
+                  <div class="backmatter-block">
+                    <h2 id="references">References</h2>
+                    <Fragment set:html={bibliographyHtml} />
+                  </div>
+                )}
+              </div>
+            )}
             <footer class="post-foot">
               <a href="/blog/">← All writing</a>
             </footer>

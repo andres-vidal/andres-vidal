@@ -351,45 +351,111 @@
   margin: 2.2em 0;
 }
 
-/* Citations linked to references, with back-links */
-.prose a.cite {
-  text-decoration: none;
+/* In-text citations and acronyms (inside the article body) */
+.prose [id^="citation--"] {
   scroll-margin-top: 80px;
 }
-.prose a.cite:hover {
+.prose [id^="citation--"] a {
+  text-decoration: none;
+}
+.prose [id^="citation--"] a:hover {
   text-decoration: underline;
 }
-.prose a.cite:target {
+.prose [id^="citation--"]:target {
   background: rgba(183, 122, 43, 0.16);
   border-radius: 3px;
   box-shadow: 0 0 0 3px rgba(183, 122, 43, 0.16);
 }
-.prose ul.references {
-  list-style: none;
-  padding-left: 0;
+.prose abbr {
+  text-decoration: underline dotted;
+  text-decoration-thickness: 0.5px;
+  text-underline-offset: 3px;
+  cursor: help;
+}
+.prose a.gloss {
+  text-decoration: none;
+  color: inherit;
+  scroll-margin-top: 80px;
+}
+.prose a.gloss:hover abbr {
+  color: var(--indigo);
+}
+.prose a.gloss:target {
+  background: rgba(183, 122, 43, 0.16);
+  border-radius: 3px;
+  box-shadow: 0 0 0 3px rgba(183, 122, 43, 0.16);
+}
+
+/* Back matter: glossary + references, rendered by the layout after the body */
+.post-backmatter {
+  margin-top: 2.4em;
+}
+.post-backmatter .backmatter-block + .backmatter-block {
+  margin-top: 2em;
+}
+.post-backmatter h2 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.42rem;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.7em;
+}
+.post-backmatter a {
+  color: var(--indigo-bright);
+  text-decoration: none;
+}
+.post-backmatter a:hover {
+  text-decoration: underline;
+}
+.post-backmatter .csl-bib-body {
   font-size: 0.95rem;
 }
-.prose ul.references li {
+.post-backmatter .csl-entry {
   padding-left: 1.5em;
   text-indent: -1.5em;
   color: var(--ink-2);
   scroll-margin-top: 80px;
 }
-.prose ul.references li + li {
+.post-backmatter .csl-entry + .csl-entry {
   margin-top: 0.7em;
 }
-.prose ul.references li:target {
+.post-backmatter .csl-entry:target {
   background: rgba(183, 122, 43, 0.16);
   border-radius: 4px;
   box-shadow: 0 0 0 4px rgba(183, 122, 43, 0.16);
 }
-.prose ul.references .cite-back {
+.post-backmatter .glossary dl {
+  margin: 0;
+  font-size: 0.95rem;
+}
+.post-backmatter .glossary .gloss-entry {
+  scroll-margin-top: 80px;
+  margin-bottom: 0.7em;
+}
+.post-backmatter .glossary .gloss-entry:target {
+  background: rgba(183, 122, 43, 0.16);
+  border-radius: 4px;
+  box-shadow: 0 0 0 4px rgba(183, 122, 43, 0.16);
+}
+.post-backmatter .glossary dt {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.post-backmatter .glossary dd {
+  margin: 2px 0 0;
+  color: var(--ink-2);
+}
+.post-backmatter .cite-back,
+.post-backmatter .gloss-back {
   margin-left: 0.4em;
   text-decoration: none;
   text-indent: 0;
   color: var(--muted);
 }
-.prose ul.references .cite-back:hover {
+.post-backmatter .cite-back:hover,
+.post-backmatter .gloss-back:hover {
   color: var(--indigo);
 }
 

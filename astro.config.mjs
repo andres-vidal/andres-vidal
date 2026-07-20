@@ -5,6 +5,7 @@ import mdx from "@astrojs/mdx";
 import rehypeCitation from "rehype-citation";
 import rehypeCitationBacklinks from "./src/plugins/rehype-citation-backlinks.mjs";
 import rehypeGlossary from "./src/plugins/rehype-glossary.mjs";
+import rehypeFootnotes from "./src/plugins/rehype-footnotes.mjs";
 
 export default defineConfig({
   site: "https://andresvidal.dev",
@@ -24,6 +25,7 @@ export default defineConfig({
         ],
         rehypeCitationBacklinks,
         rehypeGlossary,
+        rehypeFootnotes,
       ],
     }),
   },

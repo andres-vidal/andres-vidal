@@ -14,6 +14,7 @@ interface Props {
   tags?: string[];
   isIndex?: boolean;
   seriesNav?: SeriesNavData | null;
+  footnotesHtml?: string | null;
   glossaryHtml?: string | null;
   bibliographyHtml?: string | null;
   lang?: PostLang;
@@ -29,6 +30,7 @@ const {
   tags = [],
   isIndex = false,
   seriesNav = null,
+  footnotesHtml = null,
   glossaryHtml = null,
   bibliographyHtml = null,
   lang = "en",
@@ -213,8 +215,14 @@ const articleLd =
               <slot />
             </div>
             {seriesNav && <SeriesNav nav={seriesNav} />}
-            {(glossaryHtml || bibliographyHtml) && (
+            {(footnotesHtml || glossaryHtml || bibliographyHtml) && (
               <div class="post-backmatter">
+                {footnotesHtml && (
+                  <div class="backmatter-block post-notes">
+                    <h2 id="notes">Notes</h2>
+                    <Fragment set:html={footnotesHtml} />
+                  </div>
+                )}
                 {glossaryHtml && (
                   <div class="backmatter-block">
                     <h2>Glossary</h2>
@@ -329,6 +337,123 @@ const articleLd =
         if (initQ && input) input.value = initQ;
         setChips();
         apply();
+      })();
+    </script>
+    <script is:inline>
+      // Footnote popovers: progressive enhancement over GFM footnotes. Each
+      // in-text reference stays a link to the "Notes" block below (works with no
+      // JS, in print, and for the keyboard); here we surface that note inline in
+      // a popover. Hover/focus on desktop, tap to toggle everywhere; dismissed
+      // by clicking away or pressing Escape. Content is sourced from the note's
+      // own <li>, so there is a single source of truth.
+      (function () {
+        var refs = Array.prototype.slice.call(
+          document.querySelectorAll("a[data-footnote-ref]"),
+        );
+        if (!refs.length) return;
+        var pop = document.createElement("div");
+        pop.className = "fn-popover";
+        pop.setAttribute("role", "tooltip");
+        pop.hidden = true;
+        document.body.appendChild(pop);
+        var current = null,
+          hideTimer = null;
+
+        function cancelHide() {
+          if (hideTimer) {
+            clearTimeout(hideTimer);
+            hideTimer = null;
+          }
+        }
+        function contentFor(a) {
+          var id = (a.getAttribute("href") || "").slice(1);
+          var li = id && document.getElementById(id);
+          if (!li) return null;
+          var clone = li.cloneNode(true);
+          Array.prototype.slice
+            .call(clone.querySelectorAll("[data-footnote-backref]"))
+            .forEach(function (b) {
+              if (b.parentNode) b.parentNode.removeChild(b);
+            });
+          return clone.innerHTML;
+        }
+        function place(a) {
+          var r = a.getBoundingClientRect();
+          var vw =
+            document.documentElement.clientWidth || window.innerWidth || 1024;
+          var vh =
+            document.documentElement.clientHeight || window.innerHeight || 768;
+          pop.style.maxWidth = Math.min(360, vw - 24) + "px";
+          var pr = pop.getBoundingClientRect();
+          var left = r.left + r.width / 2 - pr.width / 2;
+          left = Math.max(12, Math.min(left, vw - pr.width - 12));
+          var top = r.bottom + 8;
+          if (top + pr.height > vh - 8 && r.top - 8 - pr.height > 8) {
+            top = r.top - 8 - pr.height;
+          }
+          pop.style.left = Math.round(left) + "px";
+          pop.style.top = Math.round(top) + "px";
+        }
+        function show(a) {
+          cancelHide();
+          var html = contentFor(a);
+          if (html == null) return;
+          pop.innerHTML = html;
+          pop.hidden = false;
+          current = a;
+          place(a);
+          a.setAttribute("aria-expanded", "true");
+        }
+        function hide() {
+          cancelHide();
+          pop.hidden = true;
+          pop.innerHTML = "";
+          if (current) current.setAttribute("aria-expanded", "false");
+          current = null;
+        }
+        function scheduleHide() {
+          cancelHide();
+          hideTimer = setTimeout(hide, 200);
+        }
+
+        refs.forEach(function (a) {
+          a.setAttribute("aria-expanded", "false");
+          a.addEventListener("mouseenter", function () {
+            show(a);
+          });
+          a.addEventListener("mouseleave", scheduleHide);
+          a.addEventListener("focus", function () {
+            show(a);
+          });
+          a.addEventListener("blur", scheduleHide);
+          a.addEventListener("click", function (e) {
+            e.preventDefault();
+            if (current === a && !pop.hidden) hide();
+            else show(a);
+          });
+        });
+        pop.addEventListener("mouseenter", cancelHide);
+        pop.addEventListener("mouseleave", scheduleHide);
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") hide();
+        });
+        document.addEventListener("click", function (e) {
+          if (pop.hidden) return;
+          if (pop.contains(e.target)) return;
+          if (current && (current === e.target || current.contains(e.target)))
+            return;
+          hide();
+        });
+        window.addEventListener(
+          "scroll",
+          function () {
+            if (!pop.hidden && current) place(current);
+          },
+          { passive: true },
+        );
+        window.addEventListener("resize", function () {
+          if (!pop.hidden && current) place(current);
+        });
       })();
     </script>
   </body>

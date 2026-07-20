@@ -34,6 +34,7 @@ const translations = await getTranslations(post);
   updatedDate={post.data.updatedDate}
   tags={post.data.tags}
   seriesNav={seriesNav}
+  footnotesHtml={remarkPluginFrontmatter?.footnotesHtml}
   glossaryHtml={remarkPluginFrontmatter?.glossaryHtml}
   bibliographyHtml={remarkPluginFrontmatter?.bibliographyHtml}
   lang="en"

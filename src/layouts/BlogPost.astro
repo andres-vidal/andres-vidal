@@ -143,6 +143,7 @@ const articleLd =
     <Analytics />
   </head>
   <body>
+    <a class="skip-link" href="#main">Skip to content</a>
     <div class="wrap">
       <nav class="langbar blog-bar" aria-label="Site">
         <a href={homeHref}>← andresvidal.dev</a>
@@ -195,54 +196,56 @@ const articleLd =
         >
       </nav>
 
-      {
-        isIndex ? (
-          <slot />
-        ) : (
-          <article class="post">
-            <header class="post-head">
-              {pubDate && (
-                <p class="eyebrow post-meta">
-                  <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
-                  {tags.length > 0 && <span> · {tags.join(" · ")}</span>}
-                </p>
-              )}
-              <h1 class="post-title">{title}</h1>
-              {subtitle && <p class="post-subtitle">{subtitle}</p>}
-              <p class="post-lede">{description}</p>
-            </header>
-            <div class="prose">
-              <slot />
-            </div>
-            {seriesNav && <SeriesNav nav={seriesNav} />}
-            {(footnotesHtml || glossaryHtml || bibliographyHtml) && (
-              <div class="post-backmatter">
-                {footnotesHtml && (
-                  <div class="backmatter-block post-notes">
-                    <h2 id="notes">Notes</h2>
-                    <Fragment set:html={footnotesHtml} />
-                  </div>
+      <main id="main" tabindex="-1">
+        {
+          isIndex ? (
+            <slot />
+          ) : (
+            <article class="post">
+              <header class="post-head">
+                {pubDate && (
+                  <p class="eyebrow post-meta">
+                    <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
+                    {tags.length > 0 && <span> · {tags.join(" · ")}</span>}
+                  </p>
                 )}
-                {glossaryHtml && (
-                  <div class="backmatter-block">
-                    <h2>Glossary</h2>
-                    <div class="glossary" set:html={glossaryHtml} />
-                  </div>
-                )}
-                {bibliographyHtml && (
-                  <div class="backmatter-block">
-                    <h2 id="references">References</h2>
-                    <Fragment set:html={bibliographyHtml} />
-                  </div>
-                )}
+                <h1 class="post-title">{title}</h1>
+                {subtitle && <p class="post-subtitle">{subtitle}</p>}
+                <p class="post-lede">{description}</p>
+              </header>
+              <div class="prose">
+                <slot />
               </div>
-            )}
-            <footer class="post-foot">
-              <a href="/blog/">← All writing</a>
-            </footer>
-          </article>
-        )
-      }
+              {seriesNav && <SeriesNav nav={seriesNav} />}
+              {(footnotesHtml || glossaryHtml || bibliographyHtml) && (
+                <div class="post-backmatter">
+                  {footnotesHtml && (
+                    <div class="backmatter-block post-notes">
+                      <h2 id="notes">Notes</h2>
+                      <Fragment set:html={footnotesHtml} />
+                    </div>
+                  )}
+                  {glossaryHtml && (
+                    <div class="backmatter-block">
+                      <h2>Glossary</h2>
+                      <div class="glossary" set:html={glossaryHtml} />
+                    </div>
+                  )}
+                  {bibliographyHtml && (
+                    <div class="backmatter-block">
+                      <h2 id="references">References</h2>
+                      <Fragment set:html={bibliographyHtml} />
+                    </div>
+                  )}
+                </div>
+              )}
+              <footer class="post-foot">
+                <a href="/blog/">← All writing</a>
+              </footer>
+            </article>
+          )
+        }
+      </main>
 
       <footer>
         <span>© 2026 Andrés Vidal</span>
@@ -353,6 +356,7 @@ const articleLd =
         if (!refs.length) return;
         var pop = document.createElement("div");
         pop.className = "fn-popover";
+        pop.id = "fn-popover";
         pop.setAttribute("role", "tooltip");
         pop.hidden = true;
         document.body.appendChild(pop);
@@ -403,12 +407,17 @@ const articleLd =
           current = a;
           place(a);
           a.setAttribute("aria-expanded", "true");
+          // announce the note's content while it is shown (GFM sets the base)
+          a.setAttribute("aria-describedby", "footnote-label fn-popover");
         }
         function hide() {
           cancelHide();
           pop.hidden = true;
           pop.innerHTML = "";
-          if (current) current.setAttribute("aria-expanded", "false");
+          if (current) {
+            current.setAttribute("aria-expanded", "false");
+            current.setAttribute("aria-describedby", "footnote-label");
+          }
           current = null;
         }
         function scheduleHide() {

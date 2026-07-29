@@ -144,6 +144,7 @@ const person = {
     <Analytics />
   </head>
   <body>
+    <a class="skip-link" href="#main">Skip to content</a>
     <div class="wrap">
       <nav class="langbar" aria-label={langLabel}>
         {backHref && <a href={backHref}>← andresvidal.dev</a>}
@@ -243,7 +244,9 @@ const person = {
         >
       </svg>
 
-      <slot />
+      <main id="main" tabindex="-1">
+        <slot />
+      </main>
 
       <footer>
         <span>© 2026 Andrés Vidal</span>

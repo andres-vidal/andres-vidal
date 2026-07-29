@@ -3,12 +3,15 @@
   --paper: #ffffff;
   --ink: #14181f;
   --ink-2: #3b424f;
-  --muted: #6c7484;
+  --muted: #646b79;
   --line: #e0e4ec;
   --line-strong: #c9cfdb;
   --indigo: #2a4a8f;
   --indigo-bright: #345cb0;
   --ochre: #b77a2b;
+  /* darker ochre for small TEXT — passes 4.5:1 on the light sheet, while
+     --ochre stays bright for decorative rules */
+  --ochre-ink: #8a5e1f;
   --serif: ui-serif, "New York", "Iowan Old Style", Palatino, Georgia, serif;
   --sans:
     ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -36,6 +39,43 @@ a {
 }
 a:hover {
   color: var(--indigo-bright);
+}
+
+/* Links inside running text must not rely on colour alone (WCAG 1.4.1) */
+.title a,
+.sub a,
+.meta-line a,
+.summary a,
+.entry li a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: var(--line-strong);
+}
+.title a:hover,
+.sub a:hover,
+.meta-line a:hover,
+.summary a:hover,
+.entry li a:hover {
+  text-decoration-color: var(--indigo-bright);
+}
+
+/* Keyboard skip link — off-screen until focused */
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -60px;
+  z-index: 100;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  transition: top 0.15s ease;
+}
+.skip-link:focus {
+  top: 8px;
 }
 
 /* top toolbar (screen only) */
@@ -96,7 +136,7 @@ header.cv {
   font-size: 0.8rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--ochre);
+  color: var(--ochre-ink);
   margin: 8px 0 0;
 }
 .cv-contact {
@@ -246,6 +286,7 @@ h2.cv-h {
     --indigo: #82a6e4;
     --indigo-bright: #a6c2f1;
     --ochre: #d69a54;
+    --ochre-ink: #d69a54;
   }
   :root:not([data-theme="light"]) body {
     background: #0f1319;
@@ -261,6 +302,7 @@ h2.cv-h {
   --indigo: #82a6e4;
   --indigo-bright: #a6c2f1;
   --ochre: #d69a54;
+  --ochre-ink: #d69a54;
 }
 :root[data-theme="dark"] body {
   background: #0f1319;
@@ -276,13 +318,15 @@ h2.cv-h {
     --line-strong: #c9cfdb;
     --indigo: #14181f;
     --ochre: #8a5e1f;
+    --ochre-ink: #8a5e1f;
   }
   body {
     background: #fff;
     font-size: 10.5pt;
     line-height: 1.4;
   }
-  .toolbar {
+  .toolbar,
+  .skip-link {
     display: none;
   }
   .sheet {

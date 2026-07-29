@@ -38,9 +38,9 @@ const isNew = (d: Date) => (now - d.valueOf()) / 86_400_000 <= NEW_DAYS;
     <section id="writing">
       <div class="wrap" style="padding:0">
         <div class="rule" />
-        <p class="eyebrow" style="margin-top:26px">
+        <h2 class="eyebrow" style="margin-top:26px">
           {t.eyebrow}
-        </p>
+        </h2>
         <div class="recent">
           {posts.map((post) => (
             <a class="recent-card" href={`/blog/${postKey(post)}/`}>

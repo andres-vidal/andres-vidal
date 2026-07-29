@@ -11,6 +11,7 @@ interface Props {
   backLabel?: string;
   printLabel?: string;
   langLabel?: string;
+  skipLabel?: string;
 }
 const {
   lang,
@@ -22,6 +23,13 @@ const {
   backLabel = "← andresvidal.dev",
   printLabel = "Print / Save as PDF",
   langLabel = "Language",
+  skipLabel = (
+    {
+      en: "Skip to content",
+      es: "Saltar al contenido",
+      pt: "Pular para o conteúdo",
+    } as Record<string, string>
+  )[lang] ?? "Skip to content",
 } = Astro.props;
 
 const origin = Astro.site!.origin; // from `site` in astro.config
@@ -73,7 +81,8 @@ const hreflangs = [
     <Analytics />
   </head>
   <body>
-    <div class="toolbar">
+    <a class="skip-link" href="#main">{skipLabel}</a>
+    <div class="toolbar" role="banner">
       <a href={backHref}>{backLabel}</a>
       <div class="tb-right">
         <nav class="langbar" aria-label={langLabel}>
@@ -122,8 +131,8 @@ const hreflangs = [
       </div>
     </div>
 
-    <div class="sheet">
+    <main id="main" class="sheet" tabindex="-1">
       <slot />
-    </div>
+    </main>
   </body>
 </html>

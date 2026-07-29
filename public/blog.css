@@ -80,7 +80,8 @@
   border-color: var(--line-strong);
 }
 .tag-chip.is-active {
-  color: #fff;
+  /* --paper flips with the theme, keeping high contrast on --indigo in both */
+  color: var(--paper);
   background: var(--indigo);
   border-color: var(--indigo);
 }
@@ -356,10 +357,12 @@
   scroll-margin-top: 80px;
 }
 .prose [id^="citation--"] a {
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: var(--line-strong);
 }
 .prose [id^="citation--"] a:hover {
-  text-decoration: underline;
+  text-decoration-color: var(--indigo-bright);
 }
 .prose [id^="citation--"]:target {
   background: rgba(183, 122, 43, 0.16);
@@ -373,9 +376,16 @@
   cursor: help;
 }
 .prose a.gloss {
-  text-decoration: none;
+  /* Carry the dotted underline on the link itself (not just the child abbr) so
+     the link is distinguishable without colour — WCAG 1.4.1. */
+  text-decoration: underline dotted;
+  text-decoration-thickness: 0.5px;
+  text-underline-offset: 3px;
   color: inherit;
   scroll-margin-top: 80px;
+}
+.prose a.gloss abbr {
+  text-decoration: none;
 }
 .prose a.gloss:hover abbr {
   color: var(--indigo);
@@ -402,10 +412,8 @@
 }
 .post-backmatter a {
   color: var(--indigo-bright);
-  text-decoration: none;
-}
-.post-backmatter a:hover {
   text-decoration: underline;
+  text-underline-offset: 2px;
 }
 .post-backmatter .csl-bib-body {
   font-size: 0.95rem;
@@ -450,7 +458,9 @@
 .post-backmatter .cite-back,
 .post-backmatter .gloss-back {
   margin-left: 0.4em;
-  text-decoration: none;
+  /* underline so the back-link is distinguishable from the definition text
+     without relying on colour (WCAG 1.4.1) */
+  text-decoration: underline;
   text-indent: 0;
   color: var(--muted);
 }
@@ -514,7 +524,7 @@
 }
 .post-notes .data-footnote-backref {
   margin-left: 0.4em;
-  text-decoration: none;
+  text-decoration: underline;
   color: var(--muted);
 }
 .post-notes .data-footnote-backref:hover {
@@ -600,7 +610,7 @@
   color: var(--ink);
 }
 .series-list .is-current::before {
-  color: var(--ochre);
+  color: var(--ochre-ink);
 }
 .series-dirs {
   display: flex;
@@ -631,5 +641,50 @@
   }
   .post-lede {
     font-size: 1.05rem;
+  }
+}
+
+/* =================== PRINT =================== */
+/* Palette override, chrome hiding, and page setup live in styles.css, which the
+   blog also loads. This block only handles article-specific bits. */
+@media print {
+  /* keep the article; drop the in-page navigation and interactive pieces */
+  .series-nav,
+  .post-foot,
+  .fn-popover {
+    display: none !important;
+  }
+  .prose a,
+  .post-backmatter a {
+    color: var(--ink);
+  }
+  /* footnote references read fine as plain superscripts on paper */
+  .prose sup a[data-footnote-ref] {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  /* keep code legible on white regardless of the on-screen theme */
+  .prose :not(pre) > code {
+    background: #f0f2f5;
+  }
+  .prose pre {
+    background: #f6f8fa !important;
+    border: 1px solid var(--line);
+  }
+  /* don't split atomic blocks across pages */
+  .prose figure,
+  .prose img,
+  .prose pre,
+  .backmatter-block,
+  .post-backmatter .gloss-entry,
+  .post-backmatter .csl-entry,
+  .post-notes li {
+    break-inside: avoid;
+  }
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .post-backmatter h2 {
+    break-after: avoid;
   }
 }

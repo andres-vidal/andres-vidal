@@ -4,12 +4,15 @@
   --card: #ffffff;
   --ink: #14181f;
   --ink-2: #3b424f;
-  --muted: #6c7484;
+  --muted: #646b79;
   --line: #e0e4ec;
   --line-strong: #c9cfdb;
   --indigo: #2a4a8f;
   --indigo-bright: #345cb0;
   --ochre: #b77a2b;
+  /* darker ochre for small TEXT (badges, kickers) — passes 4.5:1 on light bg,
+     while --ochre stays bright for decorative rules/underlines */
+  --ochre-ink: #8a5e1f;
   --serif: ui-serif, "New York", "Iowan Old Style", Palatino, Georgia, serif;
   --sans:
     ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -25,7 +28,8 @@ html {
   scroll-behavior: smooth;
 }
 section[id] {
-  scroll-margin-top: 28px;
+  /* clear the sticky section nav when jumping to an anchor */
+  scroll-margin-top: 64px;
 }
 
 body {
@@ -52,6 +56,39 @@ a:focus-visible {
   border-radius: 2px;
 }
 
+/* Links inside running text must not rely on colour alone (WCAG 1.4.1) */
+.what a,
+.venue a,
+.big a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: var(--line-strong);
+}
+.what a:hover,
+.venue a:hover,
+.big a:hover {
+  text-decoration-color: var(--indigo-bright);
+}
+
+/* Keyboard skip link — off-screen until focused */
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -60px;
+  z-index: 100;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  transition: top 0.15s ease;
+}
+.skip-link:focus {
+  top: 8px;
+}
+
 .wrap {
   max-width: var(--wrap);
   margin: 0 auto;
@@ -61,6 +98,7 @@ a:focus-visible {
 .eyebrow {
   font-family: var(--mono);
   font-size: 0.72rem;
+  font-weight: 400;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--muted);
@@ -281,7 +319,7 @@ h2.sec {
   font-size: 0.64rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--ochre);
+  color: var(--ochre-ink);
   display: block;
   margin-bottom: 5px;
   font-weight: 500;
@@ -522,6 +560,44 @@ footer {
   flex: 1;
 }
 
+/* Landing section nav — sticky, so visitors can see and jump between sections */
+.section-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  margin-top: 10px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+.section-nav-inner {
+  display: flex;
+  gap: 22px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+.section-nav-inner::-webkit-scrollbar {
+  display: none;
+}
+.section-nav a {
+  color: var(--muted);
+  white-space: nowrap;
+  padding-bottom: 3px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease;
+}
+.section-nav a:hover {
+  color: var(--indigo);
+}
+.section-nav a[aria-current="true"] {
+  color: var(--ink);
+  border-bottom-color: var(--ochre);
+}
+
 /* Recent posts strip on the landing */
 .recent {
   display: grid;
@@ -562,7 +638,7 @@ footer {
   font-size: 0.58rem;
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: var(--ochre);
+  color: var(--ochre-ink);
   border: 1px solid var(--ochre);
   border-radius: 999px;
   padding: 1px 6px;
@@ -608,6 +684,7 @@ footer {
     --indigo: #82a6e4;
     --indigo-bright: #a6c2f1;
     --ochre: #d69a54;
+    --ochre-ink: #d69a54;
   }
 }
 :root[data-theme="dark"] {
@@ -621,6 +698,7 @@ footer {
   --indigo: #82a6e4;
   --indigo-bright: #a6c2f1;
   --ochre: #d69a54;
+  --ochre-ink: #d69a54;
 }
 
 .themebtn {
@@ -681,4 +759,63 @@ footer {
 .langs b {
   color: var(--ink-2);
   font-weight: 600;
+}
+
+/* =================== PRINT =================== */
+@media print {
+  /* Force a light document regardless of the on-screen theme. The extra
+     selectors match the same specificity as the dark-theme rules above so
+     these win by source order. */
+  :root,
+  :root:not([data-theme="light"]),
+  :root[data-theme="dark"] {
+    --paper: #fff;
+    --card: #fff;
+    --ink: #14181f;
+    --ink-2: #33393f;
+    --muted: #565e6a;
+    --line: #d7dbe2;
+    --line-strong: #c2c8d2;
+    --indigo: #14181f;
+    --indigo-bright: #14181f;
+    --ochre: #8a5e1f;
+    --ochre-ink: #8a5e1f;
+  }
+  body {
+    background: #fff;
+    color: var(--ink);
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+  a {
+    color: var(--ink);
+  }
+  /* interactive chrome has no place on paper */
+  .langbar,
+  .section-nav,
+  .themebtn {
+    display: none !important;
+  }
+  /* tighten the vertical rhythm for the page */
+  section {
+    padding: 16px 0;
+  }
+  .hero {
+    padding: 0 0 14px;
+  }
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+  .ref,
+  .row,
+  .proj,
+  .about-grid,
+  .recent-card {
+    break-inside: avoid;
+  }
+  @page {
+    margin: 16mm;
+  }
 }

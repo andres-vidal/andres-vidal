@@ -16,14 +16,16 @@ const hasPosts = (await getCollection("blog", isPublished)).length > 0;
   active="en"
 >
   <nav class="section-nav" aria-label="Sections">
-    <div class="section-nav-inner">
-      <a href="#about">About</a>
-      {hasPosts && <a href="#writing">Writing</a>}
-      <a href="#research">Research</a>
-      <a href="#work">Work</a>
-      <a href="#toolbox">Toolbox</a>
-      <a href="#experience">Experience</a>
-      <a href="#contact">Contact</a>
+    <div class="section-nav-pill">
+      <div class="section-nav-inner">
+        <a href="#about">About</a>
+        {hasPosts && <a href="#writing">Writing</a>}
+        <a href="#research">Research</a>
+        <a href="#work">Work</a>
+        <a href="#toolbox">Toolbox</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+      </div>
     </div>
   </nav>
 
@@ -394,6 +396,23 @@ const hasPosts = (await getCollection("blog", isPublished)).length > 0;
           );
         });
       }
+      // Flag which way the pill can still scroll, so each chevron only shows
+      // while there is something that way (see .can-scroll-left/right).
+      var scroller = document.querySelector(".section-nav-inner");
+      if (scroller) {
+        var edges = function () {
+          var max = scroller.scrollWidth - scroller.clientWidth;
+          nav.classList.toggle("can-scroll-left", scroller.scrollLeft > 1);
+          nav.classList.toggle(
+            "can-scroll-right",
+            scroller.scrollLeft < max - 1,
+          );
+        };
+        scroller.addEventListener("scroll", edges, { passive: true });
+        addEventListener("resize", edges);
+        edges();
+      }
+
       var obs = new IntersectionObserver(
         function (entries) {
           entries.forEach(function (e) {

@@ -607,6 +607,82 @@ footer {
   color: var(--ink);
   border-bottom-color: var(--ochre);
 }
+/* On a phone the bar becomes a floating pill instead of a band pinned to the
+   top edge. A pinned bar has to seal against the very top of the screen, which
+   it cannot do under a notch or Dynamic Island: the page keeps painting into
+   the status-bar strip above it and the leftover gap reads as a glitch. A pill
+   is detached on purpose, so the page passing above and beside it is the
+   design. Built from the same parts as the tag chips: card, hairline, 999px. */
+@media (max-width: 760px) {
+  .section-nav {
+    /* One value for the pill's breathing room: it is the gap under the
+       language bar at rest, and the gap to the top edge once stuck. Padding
+       rather than margin, since sticky offsets constrain the margin box. */
+    --pill-gap: 18px;
+    top: 0;
+    padding-top: var(--pill-gap);
+    margin-left: 0;
+    margin-right: 0;
+    background: none;
+    border-bottom: 0;
+  }
+  /* The pill is painted here and NOT on the element that scrolls: WebKit moves
+     a scroller's own background with the rubber-band overscroll, which briefly
+     slid the chip aside and exposed the page under it. */
+  .section-nav-pill {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.16);
+    overflow: hidden;
+  }
+  .section-nav-inner {
+    padding: 9px 16px;
+    /* and keep the bounce from chaining out to the page */
+    overscroll-behavior-x: contain;
+  }
+  /* The links do not fit on a phone, so the pill scrolls sideways. Each end
+     fades out under a chevron rather than being cut against the edge, and each
+     one only shows while there is actually something that way — so the pair
+     reports the scroll position instead of just decorating it. They sit on the
+     nav, not on the pill, which is what scrolls. */
+  .section-nav::before,
+  .section-nav::after {
+    position: absolute;
+    top: calc(var(--pill-gap) + 1px);
+    bottom: 1px;
+    width: 42px;
+    display: flex;
+    align-items: center;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    line-height: 1;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    pointer-events: none;
+  }
+  .section-nav::before {
+    content: "‹";
+    left: 1px;
+    justify-content: flex-start;
+    padding-left: 12px;
+    border-radius: 11px 0 0 11px;
+    background: linear-gradient(to left, transparent, var(--card) 58%);
+  }
+  .section-nav::after {
+    content: "›";
+    right: 1px;
+    justify-content: flex-end;
+    padding-right: 12px;
+    border-radius: 0 11px 11px 0;
+    background: linear-gradient(to right, transparent, var(--card) 58%);
+  }
+  .section-nav.can-scroll-left::before,
+  .section-nav.can-scroll-right::after {
+    opacity: 1;
+  }
+}
 
 /* Recent posts strip on the landing */
 .recent {

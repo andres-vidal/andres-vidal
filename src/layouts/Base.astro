@@ -1,5 +1,6 @@
 ---
 import Analytics from "../components/Analytics.astro";
+import { ASSET_VERSION } from "../data/site";
 
 interface Props {
   lang: string;
@@ -141,7 +142,7 @@ const person = {
     <meta property="og:description" content={ogDescription ?? description} />
     <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary" />
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href={`/styles.css?v=${ASSET_VERSION}`} />
     <script
       type="application/ld+json"
       is:inline

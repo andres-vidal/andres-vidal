@@ -572,11 +572,23 @@ footer {
   /* No top margin: sticky offsets constrain the MARGIN box, so a top margin
      parks the bar that far below the viewport edge and the page scrolls
      through the gap. Spacing comes from the inner padding instead. */
-  /* Let the background fill the status-bar strip on notched phones, so the
-     page does not show through above the bar (needs viewport-fit=cover). */
+  /* Keeps the links clear of the status bar on browsers that report the inset
+     (Safari reports 0 here even under a notch, hence the shadow below). */
   padding-top: env(safe-area-inset-top);
   background: var(--paper);
   border-bottom: 1px solid var(--line);
+}
+/* iOS Safari parks the stuck bar at the top of the safe area while still
+   painting the page up into the status-bar strip above it, so that strip falls
+   outside the bar's own box and no padding can cover it. Paint the background
+   past the box instead: an offset shadow with an equal spread extends it
+   upwards without leaving a seam. Only while stuck, or it would sit over the
+   language switcher when the page is at the top. */
+.section-nav.is-stuck {
+  box-shadow: 0 -120px 0 120px var(--paper);
+}
+.section-nav-sentinel {
+  height: 1px;
 }
 .section-nav-inner {
   display: flex;

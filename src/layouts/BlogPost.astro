@@ -3,6 +3,7 @@ import SeriesNav from "../components/SeriesNav.astro";
 import Analytics from "../components/Analytics.astro";
 import type { SeriesNav as SeriesNavData } from "../lib/series";
 import type { PostLang, PostTranslation } from "../lib/posts";
+import { ASSET_VERSION } from "../data/site";
 
 interface Props {
   title: string;
@@ -129,8 +130,8 @@ const articleLd =
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary" />
-    <link rel="stylesheet" href="/styles.css" />
-    <link rel="stylesheet" href="/blog.css" />
+    <link rel="stylesheet" href={`/styles.css?v=${ASSET_VERSION}`} />
+    <link rel="stylesheet" href={`/blog.css?v=${ASSET_VERSION}`} />
     {
       articleLd && (
         <script

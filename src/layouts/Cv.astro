@@ -1,5 +1,6 @@
 ---
 import Analytics from "../components/Analytics.astro";
+import { ASSET_VERSION } from "../data/site";
 
 interface Props {
   lang: string;
@@ -77,7 +78,7 @@ const hreflangs = [
         <link rel="alternate" hreflang={h.code} href={h.href} />
       ))
     }
-    <link rel="stylesheet" href="/cv.css" />
+    <link rel="stylesheet" href={`/cv.css?v=${ASSET_VERSION}`} />
     <Analytics />
   </head>
   <body>

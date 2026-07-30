@@ -15,6 +15,7 @@ const hasPosts = (await getCollection("blog", isPublished)).length > 0;
   ogDescription="Computer scientist and statistician. Bridging statistical machine-learning research and fast, reliable software."
   active="en"
 >
+  <div class="section-nav-sentinel" aria-hidden="true"></div>
   <nav class="section-nav" aria-label="Sections">
     <div class="section-nav-inner">
       <a href="#about">About</a>
@@ -394,6 +395,20 @@ const hasPosts = (await getCollection("blog", isPublished)).length > 0;
           );
         });
       }
+      // Flag the bar while it is stuck, so it can paint over the status-bar
+      // strip only then (see .section-nav.is-stuck).
+      var sentinel = document.querySelector(".section-nav-sentinel");
+      if (sentinel) {
+        new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            nav.classList.toggle(
+              "is-stuck",
+              !e.isIntersecting && e.boundingClientRect.top < 0,
+            );
+          });
+        }).observe(sentinel);
+      }
+
       var obs = new IntersectionObserver(
         function (entries) {
           entries.forEach(function (e) {

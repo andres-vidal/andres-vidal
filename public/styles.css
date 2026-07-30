@@ -568,12 +568,20 @@ footer {
   /* No top margin: sticky offsets constrain the MARGIN box, so a top margin
      parks the bar that far below the viewport edge and the page scrolls
      through the gap. Spacing comes from the inner padding instead. */
+  /* The bar's background used to stop on the very pixel where the text column
+     starts, so a sliver of the page scrolling behind bled at the edge. Reach
+     1px past it on each side; the inner padding puts the links back. */
+  margin-left: -1px;
+  margin-right: -1px;
   background: var(--paper);
   border-bottom: 1px solid var(--line);
 }
 .section-nav-inner {
   display: flex;
   gap: 22px;
+  /* offset the bar's negative margin, so the links stay on the text column */
+  padding-left: 1px;
+  padding-right: 1px;
   padding-top: 12px;
   padding-bottom: 12px;
   overflow-x: auto;

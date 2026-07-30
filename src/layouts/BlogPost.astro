@@ -15,6 +15,9 @@ interface Props {
   tags?: string[];
   isIndex?: boolean;
   seriesNav?: SeriesNavData | null;
+  cover?: string;
+  coverAlt?: string;
+  ogImage?: string;
   footnotesHtml?: string | null;
   glossaryHtml?: string | null;
   bibliographyHtml?: string | null;
@@ -31,6 +34,9 @@ const {
   tags = [],
   isIndex = false,
   seriesNav = null,
+  cover,
+  coverAlt,
+  ogImage: ogImageProp,
   footnotesHtml = null,
   glossaryHtml = null,
   bibliographyHtml = null,
@@ -45,7 +51,9 @@ const xDefault =
   translations.find((t) => t.lang === "en")?.path ?? translations[0]?.path;
 const homeHref = lang === "en" ? "/" : `/${lang}/`;
 const canonicalUrl = new URL(canonical, Astro.site).href;
-const ogImage = `${origin}/andres.jpg`;
+// A post can carry its own preview image; otherwise the site falls back to the
+// portrait, which says who wrote it but nothing about the piece.
+const ogImage = new URL(ogImageProp ?? "/andres.jpg", Astro.site).href;
 
 const fmt = (d: Date) =>
   d.toLocaleDateString("en-US", {
@@ -129,7 +137,10 @@ const articleLd =
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
-    <meta name="twitter:card" content="summary" />
+    <meta
+      name="twitter:card"
+      content={ogImageProp ? "summary_large_image" : "summary"}
+    />
     <link rel="stylesheet" href={`/styles.css?v=${ASSET_VERSION}`} />
     <link rel="stylesheet" href={`/blog.css?v=${ASSET_VERSION}`} />
     {
@@ -204,6 +215,16 @@ const articleLd =
           ) : (
             <article class="post">
               <header class="post-head">
+                {cover && (
+                  <img
+                    class="post-cover"
+                    src={cover}
+                    alt={coverAlt ?? ""}
+                    width="120"
+                    height="138"
+                    loading="eager"
+                  />
+                )}
                 {pubDate && (
                   <p class="eyebrow post-meta">
                     <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>

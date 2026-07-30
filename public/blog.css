@@ -149,6 +149,26 @@
 .post-head {
   margin-bottom: 34px;
 }
+/* Cover art beside the title, e.g. a package's hex logo. Floated so the
+   heading block keeps its full width and the art does not push the opening
+   below the fold. */
+.post-cover {
+  float: right;
+  width: 120px;
+  height: auto;
+  margin: 4px 0 14px 26px;
+}
+@media (max-width: 560px) {
+  .post-cover {
+    width: 78px;
+    margin-left: 18px;
+  }
+}
+@media print {
+  .post-cover {
+    width: 84px;
+  }
+}
 .post-meta {
   margin-bottom: 16px;
 }

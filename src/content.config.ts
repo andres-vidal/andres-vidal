@@ -16,6 +16,13 @@ const blog = defineCollection({
     draft: z.boolean().default(false),
     series: z.string().optional(),
     seriesOrder: z.number().optional(),
+    // Cover art shown beside the title, e.g. a package's hex logo.
+    cover: z.string().optional(),
+    coverAlt: z.string().optional(),
+    // Image for link previews. Wants opaque pixels at about 1200x630; the
+    // cover itself is usually the wrong shape and often has transparency,
+    // which the social networks fill with black.
+    ogImage: z.string().optional(),
     glossary: z
       .record(
         z.string(),

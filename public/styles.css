@@ -19,6 +19,7 @@
     Helvetica, Arial, sans-serif;
   --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
   --wrap: 940px;
+  --gutter: 32px;
 }
 
 * {
@@ -92,7 +93,10 @@ a:focus-visible {
 .wrap {
   max-width: var(--wrap);
   margin: 0 auto;
-  padding: 0 32px;
+  /* keep the gutter clear of a notch when the page runs edge to edge
+     (viewport-fit=cover); the insets are 0 on everything else */
+  padding-left: max(var(--gutter), env(safe-area-inset-left));
+  padding-right: max(var(--gutter), env(safe-area-inset-right));
 }
 
 .eyebrow {
@@ -565,7 +569,12 @@ footer {
   position: sticky;
   top: 0;
   z-index: 20;
-  margin-top: 10px;
+  /* No top margin: sticky offsets constrain the MARGIN box, so a top margin
+     parks the bar that far below the viewport edge and the page scrolls
+     through the gap. Spacing comes from the inner padding instead. */
+  /* Let the background fill the status-bar strip on notched phones, so the
+     page does not show through above the bar (needs viewport-fit=cover). */
+  padding-top: env(safe-area-inset-top);
   background: var(--paper);
   border-bottom: 1px solid var(--line);
 }

@@ -434,17 +434,36 @@ const hasPosts = (await getCollection("blog", isPublished)).length > 0;
         edges();
       }
 
-      var obs = new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (e) {
-            if (e.isIntersecting) setCurrent(e.target.id);
-          });
-        },
-        { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
-      );
-      sections.forEach(function (s) {
-        obs.observe(s);
-      });
+      // The current section is the last one whose top has passed the line just
+      // under the pinned nav. Reading whatever sits mid-viewport instead gets
+      // short sections wrong: jumping to an anchor puts the target at the top,
+      // so for Toolbox the middle of the screen is already Experience.
+      var LINE = 90;
+      var queued = false;
+      function pick() {
+        queued = false;
+        var last = sections[sections.length - 1];
+        // the final section may be too short to ever reach the line
+        if (
+          innerHeight + scrollY >=
+          document.documentElement.scrollHeight - 2
+        ) {
+          return setCurrent(last.id);
+        }
+        var best = sections[0];
+        sections.forEach(function (s) {
+          if (s.getBoundingClientRect().top <= LINE) best = s;
+        });
+        setCurrent(best.id);
+      }
+      function onScroll() {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(pick);
+      }
+      addEventListener("scroll", onScroll, { passive: true });
+      addEventListener("resize", onScroll);
+      pick();
     })();
   </script>
 </Base>

@@ -621,11 +621,13 @@ footer {
        it to set the second, so it goes negative. Padding rather than margin,
        since sticky offsets constrain the margin box. */
     --pill-gap: 14px;
-    --pill-stuck-gap: 6px;
+    --pill-stuck-gap: 10px;
     top: calc(var(--pill-stuck-gap) - var(--pill-gap));
     padding-top: var(--pill-gap);
-    margin-left: 0;
-    margin-right: 0;
+    /* keep the 1px overhang: the pill's edge would otherwise land on the very
+       pixel where the text column starts, and the page behind bleeds there */
+    margin-left: -1px;
+    margin-right: -1px;
     background: none;
     border-bottom: 0;
   }

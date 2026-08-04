@@ -52,7 +52,7 @@ Keeping the interfaces thin buys more than speed. There is one implementation of
 
 Thin does not mean foreign, though. An adapter still has to speak the idiom of the language it lands in, so the R package registers a `parsnip` engine: it slots into the tidymodels pipelines people already have, instead of asking them to build something around it.
 
-It also had to be a laboratory. `ppforest2` does classification and regression, but the point is that it is extensible: those multiple partitions have to be implementable without fighting the codebase. Research software that cannot absorb the next idea has a short life.
+Finally, the package also had to be a laboratory. `ppforest2` does classification and regression, but the point is that it is extensible: those multiple partitions have to be implementable without fighting the codebase. Research software that cannot absorb the next idea has a short life.
 
 ## Where it stands
 

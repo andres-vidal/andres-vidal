@@ -8,7 +8,7 @@ series: "The ppforest2 series"
 seriesOrder: 1
 cover: "/ppforest2-logo.png"
 coverAlt: "ppforest2 hex logo: a forest canopy cut by two oblique lines"
-ogImage: "/ppforest2-social-3.png"
+ogImage: "/ppforest2-social-4.png"
 draft: false
 ---
 
@@ -49,6 +49,8 @@ Studying the method, and improving it, means paying that cost over and over: acr
 The shape follows from one decision: **put the hot path in C++, and keep everything else thin.** The method lives in a standalone C++ library that owns its own memory; the R package and the <abbr data-term="cli">CLI</abbr> are thin adapters onto it; training runs in parallel across trees.
 
 Keeping the interfaces thin buys more than speed. There is one implementation of the method to reason about, test, and get right; not three that can quietly drift apart. A Python binding would be another adapter rather than another rewrite. And with few dependencies to drag along, the core is something you can deploy somewhere that is not a research laptop.
+
+Thin does not mean foreign, though. An adapter still has to speak the idiom of the language it lands in, so the R package registers a `parsnip` engine: it slots into the tidymodels pipelines people already have, instead of asking them to build something around it.
 
 It also had to be a laboratory. `ppforest2` does classification and regression, but the point is that it is extensible: those multiple partitions have to be implementable without fighting the codebase. Research software that cannot absorb the next idea has a short life.
 

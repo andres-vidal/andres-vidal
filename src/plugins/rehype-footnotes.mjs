@@ -7,6 +7,7 @@
 // them into popovers whose content is sourced from this same section, so the
 // notes have one home and still work with no JS (the number links to it).
 import { toHtml } from "hast-util-to-html";
+import { BACK } from "./rehype-citation-backlinks.mjs";
 
 export default function rehypeFootnotes() {
   return (tree, file) => {
@@ -29,6 +30,14 @@ export default function rehypeFootnotes() {
       }
     });
     if (!section) return;
+
+    // GFM writes its back-references with a bare U+21A9, which iOS renders as
+    // an emoji sticker. Pin them to the text glyph, as the citation and
+    // glossary back-links already are.
+    visit(section, (n) => {
+      if (n.type !== "text") return;
+      n.value = n.value.replace(/↩(?!︎)/g, BACK);
+    });
 
     const astro = ((file.data ||= {}).astro ||= {});
     (astro.frontmatter ||= {}).footnotesHtml = toHtml(section);

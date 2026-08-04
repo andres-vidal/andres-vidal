@@ -476,6 +476,13 @@
   color: var(--ink-2);
 }
 .post-backmatter .cite-back,
+.post-backmatter .gloss-back,
+.post-notes .data-footnote-backref {
+  /* the return arrow has an emoji presentation that iOS picks by default;
+     the markup pins it with a variation selector, this is the backstop */
+  font-variant-emoji: text;
+}
+.post-backmatter .cite-back,
 .post-backmatter .gloss-back {
   margin-left: 0.4em;
   /* underline so the back-link is distinguishable from the definition text

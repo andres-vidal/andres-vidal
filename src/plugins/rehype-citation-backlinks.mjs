@@ -8,6 +8,10 @@
 //     content flow.
 import { toHtml } from "hast-util-to-html";
 
+// U+21A9 has an emoji presentation, which iOS picks by default and renders as
+// a blue sticker. The variation selector pins it to the text glyph.
+export const BACK = "↩︎";
+
 export default function rehypeCitationBacklinks() {
   return (tree, file) => {
     const instances = {}; // key -> [citation span ids in document order]
@@ -38,10 +42,10 @@ export default function rehypeCitationBacklinks() {
       node.children.push({ type: "text", value: " " });
       if (ids.length === 1) {
         node.children.push(
-          backLink(ids[0], "↩", "Back to the citation in text"),
+          backLink(ids[0], BACK, "Back to the citation in text"),
         );
       } else {
-        node.children.push({ type: "text", value: "↩ " });
+        node.children.push({ type: "text", value: BACK + " " });
         ids.forEach((cid, i) => {
           if (i > 0) node.children.push({ type: "text", value: " " });
           node.children.push(

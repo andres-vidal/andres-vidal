@@ -9,6 +9,7 @@
 //     layout to place after the article body.
 import { toHtml } from "hast-util-to-html";
 import { glossary } from "../data/glossary.js";
+import { BACK } from "./rehype-citation-backlinks.mjs";
 
 export default function rehypeGlossary() {
   return (tree, file) => {
@@ -96,9 +97,9 @@ export default function rehypeGlossary() {
 function entry(key, term, ids) {
   const dd = [{ type: "text", value: `${term.full}. ${term.def} ` }];
   if (ids.length === 1) {
-    dd.push(backLink(ids[0], "↩", "Back to the term in text"));
+    dd.push(backLink(ids[0], BACK, "Back to the term in text"));
   } else {
-    dd.push({ type: "text", value: "↩ " });
+    dd.push({ type: "text", value: BACK + " " });
     ids.forEach((id, i) => {
       if (i > 0) dd.push({ type: "text", value: " " });
       dd.push(

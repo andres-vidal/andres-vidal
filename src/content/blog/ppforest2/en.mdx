@@ -1,0 +1,63 @@
+---
+title: "ppforest2"
+subtitle: "Projection Pursuit Random Forests in C++ and R"
+description: "The making of ppforest2: how a studied statistical method became fast, portable software, and why that software had to be built for the research to keep moving."
+pubDate: 2026-07-10
+tags: ["ppforest2", "R", "C++", "statistical learning"]
+series: "The ppforest2 series"
+seriesOrder: 1
+cover: "/ppforest2-logo.png"
+coverAlt: "ppforest2 hex logo: a forest canopy cut by two oblique lines"
+ogImage: "/ppforest2-card.png"
+draft: false
+---
+
+import Boundaries from "./_figures/boundaries.astro";
+
+A couple of years ago I started thinking about my Statistics thesis. I had already finished a degree in Computer Science, so I didn't want a textbook exercise. I wanted to treat it like a master's project: something real, that somebody actually needed, where the software engineering would count as much as the statistics, and where I could push the scientific rigor further than I had before. _I wanted real experience in scientific software development._
+
+That search took me to Natalia da Silva, _the_ person working on computational statistics at the Faculty of Economics, which houses the Statistics program. She introduced me to her research on oblique trees, a family of methods studied extensively in the literature but with no consolidated reference implementation behind it. That gap was exactly what I had been looking for.
+
+## The method
+
+Most tree ensembles split on one variable at a time. A node asks "is `c·x3 < t`?" and sends the sample left or right. It is simple, fast, and interpretable, and it draws every decision boundary parallel to a coordinate axis. When the structure in the data runs diagonally across several variables at once, an axis-aligned forest can only approximate that diagonal with a staircase of axis-aligned splits.
+
+**Projection Pursuit Random Forests** (<abbr data-term="ppf">PPF</abbr>) take a different route. Instead of picking a single variable at each node, they search for a *linear combination* of variables, a projection, that best separates the classes. The node asks "is `a·x1 + c·x3 < t`?", and splits on the answer. The boundaries become oblique, and a diagonal boundary that an axis-aligned tree can only stairstep toward is captured by a single cut. Choosing that projection is _projection pursuit_: you score directions by some criterion, usually an index, and keep the best one. The idea is old [@friedman1974]; pointing it at *class separation* is due to @lee2005, and combining such trees into a forest follows @breiman2001.
+
+<Boundaries />
+
+That index comes out of linear discriminant analysis, either <abbr data-term="lda">LDA</abbr> or <abbr data-term="pda">PDA</abbr> for correlated or high-dimensional data [@hastie1995]. The result is a parsimonious representation of a diagonal boundary, but it still lacks flexibility: an <abbr data-term="lda">LDA</abbr>/<abbr data-term="pda">PDA</abbr> oblique tree gives each group exactly one decision region, however well oriented that region happens to be.
+
+`ppforest2` is my implementation of that idea: a C++ core with R and command-line interfaces, built as the successor to the R [`PPforest`](https://cran.r-project.org/package=PPforest) package [@dasilva2021]. Natalia signs it as an author, and it is my Statistics thesis at the Universidad de la República, which she advised.
+
+## What the next step needed
+
+The method was not short of implementations. [`PPtree`](https://cran.r-project.org/src/contrib/Archive/PPtree/) [@lee2013], now archived, and [`PPtreeViz`](https://cran.r-project.org/package=PPtreeViz) [@lee2019] covered the trees; `PPforest` put the forest around them. To make the ensemble feasible Natalia reimplemented the pieces she needed and got that package onto <abbr data-term="cran">CRAN</abbr>. And [`PPtreeExt`](https://cran.r-project.org/package=PPtreeExt) [@dasilva2026] is where she started on the extensions, among them more than one decision region per group. The lineage runs through one group of people: the authors behind those packages are her co-authors. Everything here builds on their work.
+
+What the method did not have, when I started, was a _single consolidated implementation_ solid enough for the next step to stand on.
+
+The landscape moved while I worked. [`ODRF`](https://cran.r-project.org/package=ODRF) appeared partway through [@liu2025], with a scope close to this one: oblique forests in general. Projection pursuit is among the split methods it offers, and its <abbr data-term="pp">PP</abbr> is built on `PPtreeViz`, the same lineage. But it is not where the package's weight sits. Its main method fits each node's coefficients by regression.
+
+The questions that came next were the expensive ones. Growing a forest means fitting thousands of trees, and at every node of every tree you run a projection pursuit optimization over the data reaching that node. That cost is already showing on large datasets, and the extensions Natalia started in `PPtreeExt` would multiply it again once they reach the forest.
+
+Studying the method, and improving it, means paying that cost over and over: across datasets, across repetitions, across the configurations worth comparing. Performance, in time and in memory, was the barrier standing in front of that. The faster and leaner it runs, the cheaper it is to iterate, and the more the scale of what you try is a statistical decision rather than a budget the machine imposes.
+
+## The design
+
+`ppforest2` was never meant to be only an R package. The target was efficient, portable, reproducible software that happens to implement a statistical method. That is a different thing to build than a package that works from one language.
+
+The shape follows from one decision: **put the hot path in C++, and keep everything else thin.** The method lives in a standalone C++ library that owns its own memory; the R package and the <abbr data-term="cli">CLI</abbr> are thin adapters onto it; training runs in parallel across trees.
+
+Keeping the interfaces thin buys more than speed. There is one implementation of the method to reason about, test, and get right; not three that can quietly drift apart. A Python binding would be another adapter rather than another rewrite. And with few dependencies to drag along, the core is something you can deploy somewhere that is not a research laptop.
+
+It also had to be a laboratory. `ppforest2` does classification and regression, but the point is that it is extensible: those multiple partitions have to be implementable without fighting the codebase. Research software that cannot absorb the next idea has a short life.
+
+## Where it stands
+
+`ppforest2` is on <abbr data-term="cran">CRAN</abbr>: `install.packages("ppforest2")`. Source and documentation:
+
+- CRAN: [cran.r-project.org/package=ppforest2](https://cran.r-project.org/package=ppforest2)
+- Source: [github.com/andres-vidal/ppforest2](https://github.com/andres-vidal/ppforest2)
+- Docs: [andres-vidal.github.io/ppforest2](https://andres-vidal.github.io/ppforest2/)
+
+This is the first of several posts about building it. The ones that follow go into what this one skipped: whether oblique forests actually earn their extra cost, how a projection pursuit index picks a direction, what it takes to move a compute-bound method off interpreted R, and how you test something whose output is supposed to be random.

@@ -2,9 +2,20 @@
 import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import RecentPosts from "../components/RecentPosts.astro";
+import SectionNav from "../components/SectionNav.astro";
 import { isPublished } from "../lib/posts";
 
 const hasPosts = (await getCollection("blog", isPublished)).length > 0;
+
+const sections = [
+  { href: "#about", label: "About" },
+  ...(hasPosts ? [{ href: "#writing", label: "Blog" }] : []),
+  { href: "#research", label: "Research" },
+  { href: "#work", label: "Work" },
+  { href: "#toolbox", label: "Toolbox" },
+  { href: "#experience", label: "Experience" },
+  { href: "#contact", label: "Contact" },
+];
 ---
 
 <Base
@@ -15,19 +26,7 @@ const hasPosts = (await getCollection("blog", isPublished)).length > 0;
   ogDescription="Computer scientist and statistician. Bridging statistical machine-learning research and fast, reliable software."
   active="en"
 >
-  <nav class="section-nav" aria-label="Sections">
-    <div class="section-nav-pill">
-      <div class="section-nav-inner">
-        <a href="#about">About</a>
-        {hasPosts && <a href="#writing">Writing</a>}
-        <a href="#research">Research</a>
-        <a href="#work">Work</a>
-        <a href="#toolbox">Toolbox</a>
-        <a href="#experience">Experience</a>
-        <a href="#contact">Contact</a>
-      </div>
-    </div>
-  </nav>
+  <SectionNav links={sections} label="Sections" />
 
   <header class="hero">
     <div class="hero-inner">
@@ -376,99 +375,4 @@ const hasPosts = (await getCollection("blog", isPublished)).length > 0;
     </div>
   </section>
 
-  <script is:inline>
-    // Scroll-spy: highlight the section nav link for whatever section is in view.
-    (function () {
-      var nav = document.querySelector(".section-nav");
-      if (!nav) return;
-      var links = Array.prototype.slice.call(
-        nav.querySelectorAll('a[href^="#"]'),
-      );
-      var sections = links
-        .map(function (a) {
-          return document.getElementById(a.getAttribute("href").slice(1));
-        })
-        .filter(Boolean);
-      if (!sections.length) return;
-      var scroller = document.querySelector(".section-nav-inner");
-
-      // Bring the highlighted link into view, centred. On a phone the pill is
-      // narrower than its links, so the highlight is useless once the current
-      // section has scrolled out of it; centring also makes the resting
-      // position say where you are in the run of sections.
-      function reveal(link) {
-        if (!scroller || !link) return;
-        if (scroller.scrollWidth <= scroller.clientWidth) return;
-        var l = link.getBoundingClientRect();
-        var s = scroller.getBoundingClientRect();
-        var delta = l.left + l.width / 2 - (s.left + s.width / 2);
-        if (Math.abs(delta) < 1) return;
-        scroller.scrollTo({
-          left: scroller.scrollLeft + delta,
-          behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
-            ? "auto"
-            : "smooth",
-        });
-      }
-
-      var current = null;
-      function setCurrent(id) {
-        if (id === current) return;
-        current = id;
-        var active = null;
-        links.forEach(function (a) {
-          var on = a.getAttribute("href") === "#" + id;
-          a.setAttribute("aria-current", on ? "true" : "false");
-          if (on) active = a;
-        });
-        reveal(active);
-      }
-      // Flag which way the pill can still scroll, so each chevron only shows
-      // while there is something that way (see .can-scroll-left/right).
-      if (scroller) {
-        var edges = function () {
-          var max = scroller.scrollWidth - scroller.clientWidth;
-          nav.classList.toggle("can-scroll-left", scroller.scrollLeft > 1);
-          nav.classList.toggle(
-            "can-scroll-right",
-            scroller.scrollLeft < max - 1,
-          );
-        };
-        scroller.addEventListener("scroll", edges, { passive: true });
-        addEventListener("resize", edges);
-        edges();
-      }
-
-      // The current section is the last one whose top has passed the line just
-      // under the pinned nav. Reading whatever sits mid-viewport instead gets
-      // short sections wrong: jumping to an anchor puts the target at the top,
-      // so for Toolbox the middle of the screen is already Experience.
-      var LINE = 90;
-      var queued = false;
-      function pick() {
-        queued = false;
-        var last = sections[sections.length - 1];
-        // the final section may be too short to ever reach the line
-        if (
-          innerHeight + scrollY >=
-          document.documentElement.scrollHeight - 2
-        ) {
-          return setCurrent(last.id);
-        }
-        var best = sections[0];
-        sections.forEach(function (s) {
-          if (s.getBoundingClientRect().top <= LINE) best = s;
-        });
-        setCurrent(best.id);
-      }
-      function onScroll() {
-        if (queued) return;
-        queued = true;
-        requestAnimationFrame(pick);
-      }
-      addEventListener("scroll", onScroll, { passive: true });
-      addEventListener("resize", onScroll);
-      pick();
-    })();
-  </script>
 </Base>

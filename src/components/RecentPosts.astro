@@ -14,9 +14,9 @@ const posts = (await getCollection("blog", isPublished))
   .slice(0, 6);
 
 const t = {
-  en: { eyebrow: "Writing", all: "All writing →", badge: "New" },
-  es: { eyebrow: "Escritos", all: "Todos los escritos →", badge: "Nuevo" },
-  pt: { eyebrow: "Escritos", all: "Todos os textos →", badge: "Novo" },
+  en: { eyebrow: "Blog", all: "All posts →", badge: "New" },
+  es: { eyebrow: "Blog", all: "Todos los posts →", badge: "Nuevo" },
+  pt: { eyebrow: "Blog", all: "Todos os posts →", badge: "Novo" },
 }[lang];
 const locale = { en: "en-US", es: "es-ES", pt: "pt-BR" }[lang];
 const fmt = (d: Date) =>

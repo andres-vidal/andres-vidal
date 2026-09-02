@@ -2,9 +2,20 @@
 import { getCollection } from "astro:content";
 import RecentPosts from "../../components/RecentPosts.astro";
 import Base from "../../layouts/Base.astro";
+import SectionNav from "../../components/SectionNav.astro";
 import { isPublished } from "../../lib/posts";
 
 const hasPosts = (await getCollection("blog", isPublished)).length > 0;
+
+const sections = [
+  { href: "#about", label: "Sobre" },
+  ...(hasPosts ? [{ href: "#writing", label: "Blog" }] : []),
+  { href: "#research", label: "Pesquisa" },
+  { href: "#work", label: "Trabalhos" },
+  { href: "#toolbox", label: "Ferramentas" },
+  { href: "#experience", label: "Experiência" },
+  { href: "#contact", label: "Contato" },
+];
 ---
 
 <Base
@@ -17,6 +28,8 @@ const hasPosts = (await getCollection("blog", isPublished)).length > 0;
   langLabel="Idioma"
   footerLocation="Montevidéu, Uruguai · andresvidal.dev"
 >
+  <SectionNav links={sections} label="Seções" />
+
   <header class="hero">
     <div class="hero-inner">
       <p class="eyebrow">

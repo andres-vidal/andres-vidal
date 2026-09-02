@@ -8,7 +8,7 @@ import { isPublished } from "../../lib/posts";
 const hasPosts = (await getCollection("blog", isPublished)).length > 0;
 
 const sections = [
-  { href: "#about", label: "Sobre" },
+  { href: "#about", label: "Sobre mim" },
   ...(hasPosts ? [{ href: "#writing", label: "Blog" }] : []),
   { href: "#research", label: "Pesquisa" },
   { href: "#work", label: "Trabalhos" },
@@ -75,7 +75,7 @@ const sections = [
   <section id="about">
     <div class="wrap" style="padding:0">
       <div class="rule"></div>
-      <h2 class="eyebrow" style="margin-top:26px">Sobre</h2>
+      <h2 class="eyebrow" style="margin-top:26px">Sobre mim</h2>
       <div class="about-grid">
         <figure class="portrait">
           <img src="/andres.jpg" alt="Andrés Vidal" width="200" height="250" />
@@ -353,7 +353,7 @@ const sections = [
       <div class="rule"></div>
       <h2 class="eyebrow" style="margin-top:26px">Contato</h2>
       <p class="big">
-        Software científico, sistemas de ML, ou um bom problema?<br /><a
+        Conversemos sobre software científico, ML, ou algum problema interessante<br /><a
           href="mailto:andres@andresvidal.dev">andres@andresvidal.dev</a
         >
       </p>

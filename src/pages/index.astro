@@ -30,9 +30,6 @@ const sections = [
 
   <header class="hero">
     <div class="hero-inner">
-      <p class="eyebrow">
-        Montevideo, Uruguay · Computer Scientist &amp; Statistician
-      </p>
       <h1 class="name">Andrés Vidal</h1>
       <p class="thesis">
         I work to bridge the gap between <b
@@ -71,7 +68,7 @@ const sections = [
   <section id="about">
     <div class="wrap" style="padding:0">
       <div class="rule"></div>
-      <h2 class="eyebrow" style="margin-top:26px">About</h2>
+      <h2 class="sec">About</h2>
       <div class="about-grid">
         <figure class="portrait">
           <img src="/andres.jpg" alt="Andrés Vidal" width="200" height="250" />
@@ -106,10 +103,24 @@ const sections = [
   <section id="research">
     <div class="wrap" style="padding:0">
       <div class="rule"></div>
-      <h2 class="eyebrow" style="margin-top:26px">
-        Research &amp; Publications
-      </h2>
+      <h2 class="sec">Research &amp; Publications</h2>
       <div class="reflist">
+        <div class="ref">
+          <span class="title"
+            >ppforest2: entrenamiento de bosques aleatorios basados en
+            proyecciones</span
+          >
+          <span class="authors"
+            >Statistics thesis · Advisor: Natalia da Silva</span
+          >
+          <span class="venue"
+            ><span class="tag-venue">Universidad de la República · 2026</span>
+            <a
+              href="https://www.colibri.udelar.edu.uy/handle/20.500.12008/56830"
+              >Colibrí ↗</a
+            ></span
+          >
+        </div>
         <div class="ref">
           <span class="title"
             >Aumentación de conjuntos de datos utilizando redes neuronales
@@ -129,7 +140,7 @@ const sections = [
             ></span
           >
         </div>
-        <p class="sublabel">Peer-reviewed publications · co-authored</p>
+        <p class="sublabel">Peer-reviewed publications · Co-authored</p>
         <div class="ref">
           <span class="title"
             >Parallel-Distributed Implementation of the Lipizzaner Framework for
@@ -165,12 +176,11 @@ const sections = [
   <section id="work">
     <div class="wrap" style="padding:0">
       <div class="rule"></div>
-      <h2 class="eyebrow" style="margin-top:26px">Selected Work</h2>
+      <h2 class="sec">Selected Work</h2>
       <div class="projects">
         <article class="proj feature">
-          <h3>
-            <span class="kicker">Flagship · research software</span>ppforest2
-          </h3>
+          <h3>ppforest2</h3>
+          <p class="proj-type">Statistical package</p>
           <div class="links">
             <a href="https://cran.r-project.org/package=ppforest2">CRAN ↗</a>
             <a href="https://github.com/andres-vidal/ppforest2">source ↗</a>
@@ -181,7 +191,8 @@ const sections = [
               >Projection Pursuit Random Forests</b
             >: a C++ core with R and CLI interfaces, and a modern successor to
             the R <code>PPforest</code> package. Oblique splits, multi-threaded training,
-            and reproducible golden tests. On CRAN. My Statistics thesis project.
+            and reproducible golden tests. On CRAN. My Statistics thesis, and the
+            main research software I maintain.
           </p>
           <div class="tech">
             <span>C++</span><span>R</span><span>OpenMP</span><span
@@ -191,6 +202,7 @@ const sections = [
         </article>
         <article class="proj">
           <h3>Richard &amp; Isabel Burton Platform</h3>
+          <p class="proj-type">Web application</p>
           <div class="links">
             <a href="https://github.com/andres-vidal/richardburton">source ↗</a>
           </div>
@@ -213,7 +225,7 @@ const sections = [
   <section id="toolbox">
     <div class="wrap" style="padding:0">
       <div class="rule"></div>
-      <h2 class="eyebrow" style="margin-top:26px">Toolbox</h2>
+      <h2 class="sec">Toolbox</h2>
       <div class="chips-row">
         <span>TypeScript</span><span>React</span><span>Next.js</span><span
           >NestJS</span
@@ -232,7 +244,7 @@ const sections = [
   <section id="experience">
     <div class="wrap" style="padding:0">
       <div class="rule"></div>
-      <h2 class="eyebrow" style="margin-top:26px">Experience</h2>
+      <h2 class="sec">Experience</h2>
       <div class="rows">
         <div class="row">
           <div class="when">Since 2020</div>
@@ -276,7 +288,7 @@ const sections = [
         </div>
       </div>
 
-      <h3 class="eyebrow" style="margin:40px 0 0">Education</h3>
+      <h3 class="sub">Education</h3>
       <div class="rows" style="margin-top:14px">
         <div class="row">
           <div class="when">Upcoming</div>
@@ -328,7 +340,7 @@ const sections = [
         </div>
       </div>
 
-      <h3 class="eyebrow" style="margin:40px 0 0">Other</h3>
+      <h3 class="sub">Other</h3>
       <div class="rows" style="margin-top:14px">
         <div class="row">
           <div class="when">2015</div>
@@ -349,11 +361,12 @@ const sections = [
   <section class="contact" id="contact">
     <div class="wrap" style="padding:0">
       <div class="rule"></div>
-      <h2 class="eyebrow" style="margin-top:26px">Get in touch</h2>
+      <h2 class="sec">Get in touch</h2>
       <p class="big">
         Let's talk about research software, ML, or an interesting problem<br
         /><a href="mailto:andres@andresvidal.dev">andres@andresvidal.dev</a>
       </p>
+      <p class="contact-meta">Montevideo, Uruguay · UTC&minus;3</p>
       <div class="links">
         <a href="mailto:andres@andresvidal.dev"
           ><svg class="ic"><use href="#icon-mail"></use></svg>Email</a

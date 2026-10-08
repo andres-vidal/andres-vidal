@@ -95,14 +95,14 @@ a:focus-visible {
   padding: 0 32px;
 }
 
-.eyebrow {
+/* Where the hero eyebrow used to put the location. It reads better next to the
+   address someone is about to write to than as a label above the name. */
+.contact-meta {
   font-family: var(--mono);
-  font-size: 0.72rem;
-  font-weight: 400;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-size: 0.74rem;
+  letter-spacing: 0.02em;
   color: var(--muted);
-  margin: 0;
+  margin: 10px 0 0;
 }
 
 .rule {
@@ -131,16 +131,23 @@ a:focus-visible {
 section {
   padding: 60px 0;
 }
-section > .wrap > .eyebrow {
-  margin-bottom: 26px;
-}
-
+/* Section and subsection headings. Both sit under a .rule, so their top
+   margin is what separates the line from the words. */
 h2.sec {
   font-family: var(--serif);
   font-weight: 600;
   font-size: 1.5rem;
   letter-spacing: -0.01em;
-  margin: 14px 0 28px;
+  margin: 22px 0 28px;
+  text-wrap: balance;
+}
+
+h3.sub {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  margin: 40px 0 0;
   text-wrap: balance;
 }
 
@@ -243,12 +250,12 @@ h2.sec {
   max-width: 74ch;
 }
 .sublabel {
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin: 4px 0 -8px;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink-2);
+  margin: 30px 0 12px;
 }
 .ref {
   display: flex;
@@ -308,23 +315,32 @@ h2.sec {
   padding-top: 4px;
 }
 .proj h3 {
+  grid-column: 1 / -1;
   font-family: var(--serif);
   font-size: 1.24rem;
   font-weight: 600;
   margin: 0;
   letter-spacing: -0.01em;
 }
-.proj h3 .kicker {
+/* Classifies the kind of system each project is. Deliberately neutral: it is
+   metadata beside the title, not a label shouting above it like the old kicker. */
+.proj .proj-type {
+  grid-row: 2;
+  grid-column: 1;
+  justify-self: start;
   font-family: var(--mono);
-  font-size: 0.64rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: 0.66rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
   color: var(--ochre-ink);
-  display: block;
-  margin-bottom: 5px;
-  font-weight: 500;
+  border: 1px solid var(--ochre);
+  border-radius: 999px;
+  padding: 2px 8px;
+  margin: 4px 0 2px;
+  white-space: nowrap;
 }
 .proj p {
+  grid-row: 3;
   margin: 8px 0 0;
   color: var(--ink-2);
   max-width: 60ch;
@@ -349,6 +365,9 @@ h2.sec {
   padding: 3px 8px;
 }
 .proj .links {
+  grid-row: 2;
+  grid-column: 2;
+  justify-self: end;
   display: flex;
   gap: 16px;
   font-family: var(--mono);
@@ -507,8 +526,20 @@ footer {
   .proj {
     grid-template-columns: 1fr;
   }
+
+  .proj .proj-type {
+    grid-row: 2;
+    grid-column: 1;
+  }
   .proj .links {
+    grid-row: 3;
+    grid-column: 1;
+    justify-self: start;
     margin-top: 4px;
+  }
+
+  .proj p {
+    grid-row: 4;
   }
   .row {
     grid-template-columns: 1fr;

@@ -32,9 +32,6 @@ const sections = [
 
   <header class="hero">
     <div class="hero-inner">
-      <p class="eyebrow">
-        Montevidéu, Uruguai · Cientista da Computação e Estatístico
-      </p>
       <h1 class="name">Andrés Vidal</h1>
       <p class="thesis">
         Trabalho para construir pontes entre a <b
@@ -75,7 +72,7 @@ const sections = [
   <section id="about">
     <div class="wrap" style="padding:0">
       <div class="rule"></div>
-      <h2 class="eyebrow" style="margin-top:26px">Sobre mim</h2>
+      <h2 class="sec">Sobre mim</h2>
       <div class="about-grid">
         <figure class="portrait">
           <img src="/andres.jpg" alt="Andrés Vidal" width="200" height="250" />
@@ -110,8 +107,25 @@ const sections = [
   <section id="research">
     <div class="wrap" style="padding:0">
       <div class="rule"></div>
-      <h2 class="eyebrow" style="margin-top:26px">Pesquisa e publicações</h2>
+      <h2 class="sec">Pesquisa e publicações</h2>
       <div class="reflist">
+        <div class="ref">
+          <span class="title"
+            >ppforest2: entrenamiento de bosques aleatorios basados en
+            proyecciones</span
+          >
+          <span class="authors"
+            >Trabalho final do Bacharelado em Estatística · Orientadora: Natalia
+            da Silva</span
+          >
+          <span class="venue"
+            ><span class="tag-venue">Universidad de la República · 2026</span>
+            <a
+              href="https://www.colibri.udelar.edu.uy/handle/20.500.12008/56830"
+              >Colibrí ↗</a
+            ></span
+          >
+        </div>
         <div class="ref">
           <span class="title"
             >Aumentación de conjuntos de datos utilizando redes neuronales
@@ -131,7 +145,7 @@ const sections = [
             ></span
           >
         </div>
-        <p class="sublabel">Publicações revisadas por pares · coautoria</p>
+        <p class="sublabel">Publicações revisadas por pares · Coautoria</p>
         <div class="ref">
           <span class="title"
             >Parallel-Distributed Implementation of the Lipizzaner Framework for
@@ -167,12 +181,11 @@ const sections = [
   <section id="work">
     <div class="wrap" style="padding:0">
       <div class="rule"></div>
-      <h2 class="eyebrow" style="margin-top:26px">Trabalhos selecionados</h2>
+      <h2 class="sec">Trabalhos selecionados</h2>
       <div class="projects">
         <article class="proj feature">
-          <h3>
-            <span class="kicker">Principal · software científico</span>ppforest2
-          </h3>
+          <h3>ppforest2</h3>
+          <p class="proj-type">Pacote estatístico</p>
           <div class="links">
             <a href="https://cran.r-project.org/package=ppforest2">CRAN ↗</a>
             <a href="https://github.com/andres-vidal/ppforest2">código ↗</a>
@@ -183,8 +196,8 @@ const sections = [
               >Projection Pursuit Random Forests</b
             >: um núcleo em C++ com interfaces para R e CLI, e um sucessor
             moderno do pacote de R <code>PPforest</code>. Cortes oblíquos,
-            treinamento multithread e golden tests reprodutíveis. No CRAN.
-            Projeto da minha tese de Estatística.
+            treinamento multithread e golden tests reprodutíveis. No CRAN. Minha
+            tese de Estatística, e o principal software científico que mantenho.
           </p>
           <div class="tech">
             <span>C++</span><span>R</span><span>OpenMP</span><span
@@ -194,6 +207,7 @@ const sections = [
         </article>
         <article class="proj">
           <h3>Richard &amp; Isabel Burton Platform</h3>
+          <p class="proj-type">Aplicação web</p>
           <div class="links">
             <a href="https://github.com/andres-vidal/richardburton">código ↗</a>
           </div>
@@ -217,7 +231,7 @@ const sections = [
   <section id="toolbox">
     <div class="wrap" style="padding:0">
       <div class="rule"></div>
-      <h2 class="eyebrow" style="margin-top:26px">Ferramentas</h2>
+      <h2 class="sec">Ferramentas</h2>
       <div class="chips-row">
         <span>TypeScript</span><span>React</span><span>Next.js</span><span
           >NestJS</span
@@ -236,7 +250,7 @@ const sections = [
   <section id="experience">
     <div class="wrap" style="padding:0">
       <div class="rule"></div>
-      <h2 class="eyebrow" style="margin-top:26px">Experiência</h2>
+      <h2 class="sec">Experiência</h2>
       <div class="rows">
         <div class="row">
           <div class="when">Desde 2020</div>
@@ -281,7 +295,7 @@ const sections = [
         </div>
       </div>
 
-      <h3 class="eyebrow" style="margin:40px 0 0">Formação</h3>
+      <h3 class="sub">Formação</h3>
       <div class="rows" style="margin-top:14px">
         <div class="row">
           <div class="when">Em breve</div>
@@ -333,7 +347,7 @@ const sections = [
         </div>
       </div>
 
-      <h3 class="eyebrow" style="margin:40px 0 0">Outros</h3>
+      <h3 class="sub">Outros</h3>
       <div class="rows" style="margin-top:14px">
         <div class="row">
           <div class="when">2015</div>
@@ -353,13 +367,14 @@ const sections = [
   <section class="contact" id="contact">
     <div class="wrap" style="padding:0">
       <div class="rule"></div>
-      <h2 class="eyebrow" style="margin-top:26px">Contato</h2>
+      <h2 class="sec">Contato</h2>
       <p class="big">
         Conversemos sobre software científico, ML, ou algum problema
         interessante<br /><a href="mailto:andres@andresvidal.dev"
           >andres@andresvidal.dev</a
         >
       </p>
+      <p class="contact-meta">Montevidéu, Uruguai · UTC&minus;3</p>
       <div class="links">
         <a href="mailto:andres@andresvidal.dev"
           ><svg class="ic"><use href="#icon-mail"></use></svg>E-mail</a

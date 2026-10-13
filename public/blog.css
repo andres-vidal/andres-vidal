@@ -662,6 +662,13 @@
   font-size: 0.8rem;
 }
 
+/* The blog reads in a 720px column; the site footer sits on that same column
+   so its edge lines up with the article above it. */
+.site-foot {
+  max-width: 720px;
+  margin-inline: auto;
+}
+
 @media (max-width: 640px) {
   .post-title {
     font-size: 1.7rem;

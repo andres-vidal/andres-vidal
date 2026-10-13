@@ -1,5 +1,6 @@
 ---
 import Analytics from "../components/Analytics.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 import { ASSET_VERSION } from "../data/site";
 
 interface Props {
@@ -249,14 +250,7 @@ const person = {
         <slot />
       </main>
 
-      <footer>
-        <span>© 2026 Andrés Vidal</span>
-        <span
-          >{footerLocation} · <a class="footer-link" href={privacyUrl}
-            >{privacyLabel}</a
-          ></span
-        >
-      </footer>
+      <SiteFooter lang={lang} />
     </div>
   </body>
 </html>

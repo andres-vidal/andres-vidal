@@ -1,0 +1,43 @@
+---
+// The contact address as a button that always does something. A bare mailto:
+// does nothing at all when no mail client is configured, which on a desktop
+// with webmail is most of the time, and it fails silently. So a click also
+// copies the address and says so in the button itself. The mailto: stays, so a
+// configured client still opens, and without JavaScript this is a plain link.
+interface Props {
+  copied?: string;
+}
+const { copied = "Copied ✓" } = Astro.props;
+const email = "andres@andresvidal.dev";
+---
+
+<a
+  class="mail-cta"
+  href={`mailto:${email}`}
+  data-email={email}
+  data-copied={copied}
+  ><span class="mail-cta-label" aria-live="polite">{email}</span></a
+>
+
+<script is:inline>
+  (function () {
+    document.querySelectorAll(".mail-cta[data-email]").forEach(function (a) {
+      a.addEventListener("click", function () {
+        if (!navigator.clipboard) return;
+        navigator.clipboard.writeText(a.dataset.email).then(function () {
+          var label = a.querySelector(".mail-cta-label");
+          var original = label.textContent;
+          // hold the width so the pill does not shrink around the shorter text
+          a.style.minWidth = a.offsetWidth + "px";
+          label.textContent = a.dataset.copied;
+          a.classList.add("is-copied");
+          setTimeout(function () {
+            label.textContent = original;
+            a.classList.remove("is-copied");
+            a.style.minWidth = "";
+          }, 1800);
+        });
+      });
+    });
+  })();
+</script>

@@ -1,6 +1,7 @@
 ---
 import SeriesNav from "../components/SeriesNav.astro";
 import Analytics from "../components/Analytics.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 import type { SeriesNav as SeriesNavData } from "../lib/series";
 import type { PostLang, PostTranslation } from "../lib/posts";
 import { ASSET_VERSION } from "../data/site";
@@ -66,6 +67,13 @@ const fmt = (d: Date) =>
 // Full title (title + subtitle) for <title>, OG, and structured data — keeps the
 // long descriptive form for SEO while the header can split it into two lines.
 const fullTitle = subtitle ? `${title}: ${subtitle}` : title;
+const allPostsLabel =
+  (
+    { en: "All posts", es: "Todos los posts", pt: "Todos os posts" } as Record<
+      string,
+      string
+    >
+  )[lang] ?? "All posts";
 const ogTitle = isIndex ? "Andrés Vidal · Blog" : fullTitle;
 
 const articleLd =
@@ -262,22 +270,14 @@ const articleLd =
                 </div>
               )}
               <footer class="post-foot">
-                <a href="/blog/">← All writing</a>
+                <a href="/blog/">← {allPostsLabel}</a>
               </footer>
             </article>
           )
         }
       </main>
 
-      <footer>
-        <span>© 2026 Andrés Vidal</span>
-        <span
-          >Montevideo, Uruguay · andresvidal.dev · <a
-            class="footer-link"
-            href="/privacy/">Privacy</a
-          ></span
-        >
-      </footer>
+      <SiteFooter lang={lang} />
     </div>
     <script is:inline>
       (function () {

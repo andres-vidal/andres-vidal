@@ -1,0 +1,73 @@
+---
+// One footer for the whole site, and it is also the contact section. The
+// invitation, the links and the legal line used to be two blocks in a row, a
+// "Get in touch" section and then a footer, which read as the same composition
+// twice. As one block it closes every page the same way, including the blog,
+// where there was no way to get in touch at all.
+import MailCta from "./MailCta.astro";
+import FootMotif from "./FootMotif.astro";
+
+interface Props {
+  lang?: string;
+}
+const { lang = "en" } = Astro.props;
+
+const strings = {
+  en: {
+    headline: "Questions, ideas, or just want to say hi?",
+    heading: "Contact",
+    copied: "Copied ✓",
+    privacy: "Privacy",
+    href: "/privacy/",
+    cv: "/cv/",
+  },
+  es: {
+    headline: "¿Preguntas, ideas o un saludo?",
+    heading: "Contacto",
+    copied: "Copiado ✓",
+    privacy: "Privacidad",
+    href: "/es/privacy/",
+    cv: "/es/cv/",
+  },
+  pt: {
+    headline: "Perguntas, ideias ou um oi?",
+    heading: "Contato",
+    copied: "Copiado ✓",
+    privacy: "Privacidade",
+    href: "/pt/privacy/",
+    cv: "/pt/cv/",
+  },
+};
+const t = strings[lang as keyof typeof strings] ?? strings.en;
+
+const place = lang === "pt" ? "Montevidéu, Uruguai" : "Montevideo, Uruguay";
+const year = new Date().getFullYear();
+---
+
+<footer class="site-foot" id="contact" aria-labelledby="foot-heading">
+  <div class="foot-main">
+    <FootMotif />
+    <div class="foot-mark"></div>
+    <h2 id="foot-heading" class="visually-hidden">{t.heading}</h2>
+    <div class="foot-grid">
+      <div class="foot-cta">
+        <p class="foot-headline">{t.headline}</p>
+        <MailCta copied={t.copied} />
+      </div>
+      <nav class="foot-links" aria-label="Elsewhere">
+        <a href="https://github.com/andres-vidal">GitHub · andres-vidal</a>
+        <a href="https://www.linkedin.com/in/andresvidalberriel/"
+          >LinkedIn · andresvidalberriel</a
+        >
+        <a href="https://orcid.org/0009-0008-6350-7585"
+          >ORCID · 0009-0008-6350-7585</a
+        >
+        <a href={t.cv}>CV</a>
+      </nav>
+    </div>
+  </div>
+  <div class="foot-bar">
+    <span>© {year} · {place} · UTC&minus;3</span>
+    <a class="footer-link" href={t.href}>{t.privacy}</a>
+  </div>
+</footer>

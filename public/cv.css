@@ -132,12 +132,9 @@ header.cv {
   line-height: 1.05;
 }
 .cv-role {
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ochre-ink);
-  margin: 8px 0 0;
+  font-size: 1.05rem;
+  color: var(--ink-2);
+  margin: 6px 0 0;
 }
 .cv-contact {
   display: flex;
@@ -169,23 +166,30 @@ header.cv {
 section.cv {
   margin-top: 30px;
 }
+/* Serif headings, as on the site; the hairline stays because a CV is scanned
+   by section and still has to read as one on paper. */
 h2.cv-h {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin: 0 0 14px;
-  padding-bottom: 7px;
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 10px;
+  padding-bottom: 6px;
   border-bottom: 1px solid var(--line);
 }
 
+/* Entries stack, the date or label above the title, with a hairline between
+   them, as the rows on the site do. */
 .entry {
   display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 20px;
-  padding: 9px 0;
+  grid-template-columns: 1fr;
+  gap: 3px;
+  padding: 12px 0;
   break-inside: avoid;
+}
+.entry + .entry {
+  border-top: 1px solid var(--line);
 }
 .entry .when {
   font-family: var(--mono);
@@ -217,8 +221,7 @@ h2.cv-h {
   margin: 2px 0;
 }
 .entry .meta-line {
-  font-family: var(--mono);
-  font-size: 0.72rem;
+  font-size: 0.84rem;
   color: var(--muted);
   margin-top: 4px;
 }
@@ -242,9 +245,9 @@ h2.cv-h {
 
 .kv {
   display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 20px;
-  padding: 5px 0;
+  grid-template-columns: 1fr;
+  gap: 2px;
+  padding: 6px 0;
 }
 .kv .k {
   font-family: var(--mono);
@@ -264,11 +267,6 @@ h2.cv-h {
   .sheet {
     padding: 32px 24px;
     margin: 10px;
-  }
-  .entry,
-  .kv {
-    grid-template-columns: 1fr;
-    gap: 3px;
   }
   .cv-name {
     font-size: 2rem;
@@ -347,6 +345,9 @@ h2.cv-h {
   }
   section.cv {
     margin-top: 16pt;
+  }
+  h2.cv-h {
+    font-size: 13pt;
   }
   .entry {
     padding: 5pt 0;

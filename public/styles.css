@@ -105,8 +105,12 @@ a:focus-visible {
   margin: 0;
 }
 
+/* One vertical rhythm for the whole page: 28px on each side of a section, so
+   56px between any two, including after the hero and before the footer. List
+   items (publications, projects, rows) are flush with their section, so the
+   padding they use between themselves does not add to the rhythm. */
 section {
-  padding: 60px 0;
+  padding: 28px 0;
 }
 /* Section and subsection headings. Both sit under a .rule, so their top
    margin is what separates the line from the words. */
@@ -130,7 +134,7 @@ h3.sub {
 
 /* =================== HERO =================== */
 .hero {
-  padding: 74px 0 40px;
+  padding: 74px 0 28px;
 }
 .hero-inner {
   max-width: 680px;
@@ -248,6 +252,12 @@ h3.sub {
 .ref + .ref {
   border-top: 1px solid var(--line);
 }
+.ref:first-child {
+  padding-top: 0;
+}
+.ref:last-child {
+  padding-bottom: 0;
+}
 .ref .title {
   font-weight: 600;
   color: var(--ink);
@@ -296,9 +306,10 @@ h3.sub {
 }
 .proj:first-child {
   border-top: none;
+  padding-top: 0;
 }
-.proj.feature {
-  padding-top: 4px;
+.proj:last-child {
+  padding-bottom: 0;
 }
 .proj h3 {
   grid-column: 1 / -1;
@@ -377,6 +388,10 @@ h3.sub {
 }
 .row:first-child {
   border-top: none;
+  padding-top: 0;
+}
+.row:last-child {
+  padding-bottom: 0;
 }
 .row .when {
   font-family: var(--mono);
@@ -427,7 +442,7 @@ h3.sub {
    gamma density stands on the bar's top border as if it were its axis. */
 .site-foot {
   border-top: 1px solid var(--line);
-  padding-top: 44px;
+  padding-top: 28px;
   padding-bottom: 40px;
   overflow: hidden;
   container-type: inline-size;
@@ -546,9 +561,11 @@ h3.sub {
 }
 
 /* Legal / privacy page */
+/* Left-aligned with the footer below it, starting where the hero does on the
+   home page; the bottom is left to the section rhythm. */
 .legal {
   max-width: 640px;
-  margin: 40px auto 64px;
+  margin: 46px 0 0;
 }
 .legal h1 {
   font-family: var(--serif);
@@ -559,9 +576,7 @@ h3.sub {
 }
 .legal .legal-sub {
   font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: 0.76rem;
   color: var(--muted);
   margin: 0 0 30px;
 }
@@ -795,7 +810,6 @@ h3.sub {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
-  margin-top: 4px;
 }
 .recent-card {
   display: flex;

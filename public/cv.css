@@ -181,6 +181,19 @@ h2.cv-h {
 
 /* Entries stack, the date or label above the title, with a hairline between
    them, as the rows on the site do. */
+/* Group labels inside a section, as on the site: serif, in the softer ink,
+   between the section heading and the entry titles in size. */
+h3.cv-sub {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink-2);
+  margin: 18px 0 2px;
+}
+h2.cv-h + h3.cv-sub {
+  margin-top: 4px;
+}
 .entry {
   display: grid;
   grid-template-columns: 1fr;
@@ -190,6 +203,9 @@ h2.cv-h {
 }
 .entry + .entry {
   border-top: 1px solid var(--line);
+}
+h3.cv-sub + .entry {
+  padding-top: 6px;
 }
 .entry .when {
   font-family: var(--mono);
@@ -348,6 +364,10 @@ h2.cv-h {
   }
   h2.cv-h {
     font-size: 13pt;
+  }
+  h2.cv-h,
+  h3.cv-sub {
+    break-after: avoid;
   }
   .entry {
     padding: 5pt 0;

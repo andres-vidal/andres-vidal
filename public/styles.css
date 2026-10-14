@@ -124,14 +124,19 @@ h2.sec {
 }
 
 /* Subheadings sit between the section heading (1.5rem serif) and the item
-   titles (1.06rem bold sans), so they have to be larger than the items. */
+   titles (1.06rem bold sans): larger than the items, but in the softer ink so
+   they read as labels for a group rather than as another entry. */
 h3.sub {
   font-family: var(--serif);
   font-weight: 600;
   font-size: 1.2rem;
   letter-spacing: -0.01em;
+  color: var(--ink-2);
   margin: 40px 0 16px;
   text-wrap: balance;
+}
+h3.sub:first-child {
+  margin-top: 0;
 }
 
 /* =================== HERO =================== */

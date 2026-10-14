@@ -685,31 +685,60 @@ h3.sub + .ref {
   flex: 1;
 }
 
-/* Landing section nav — sticky, so visitors can see and jump between sections */
+/* Landing section nav: a floating pill at every width. It used to be a band
+   pinned to the top edge on desktop and a pill only on phones, where a pinned
+   bar cannot seal against the top under a notch or Dynamic Island. The pill is
+   detached on purpose, so the page passing above and beside it is the design,
+   and now both widths share it. Built from the same parts as the tag chips:
+   card, hairline, rounded ends. */
 .section-nav {
+  /* Two different distances. At rest the pill hangs --pill-gap below the
+     language bar; once stuck it sits closer to the screen edge, at
+     --pill-stuck-gap. The padding sets the first, and `top` compensates for
+     it to set the second, so it goes negative. Padding rather than margin,
+     since sticky offsets constrain the margin box. */
+  --pill-gap: 14px;
+  --pill-stuck-gap: 12px;
   position: sticky;
-  top: 0;
+  top: calc(var(--pill-stuck-gap) - var(--pill-gap));
   z-index: 20;
-  /* No top margin: sticky offsets constrain the MARGIN box, so a top margin
-     parks the bar that far below the viewport edge and the page scrolls
-     through the gap. Spacing comes from the inner padding instead. */
-  /* The bar's background used to stop on the very pixel where the text column
-     starts, so a sliver of the page scrolling behind bled at the edge. Reach
-     1px past it on each side; the inner padding puts the links back. */
+  padding-top: var(--pill-gap);
+  /* The pill's edge would otherwise land on the very pixel where the text
+     column starts, and the page behind bleeds there. Reach 1px past it. */
   margin-left: -1px;
   margin-right: -1px;
-  background: var(--paper);
-  border-bottom: 1px solid var(--line);
+}
+/* The pill is painted here and NOT on the element that scrolls: WebKit moves
+   a scroller's own background with the rubber-band overscroll, which briefly
+   slid the chip aside and exposed the page under it. */
+/* Frosted, but only just: mostly the card colour, with the page behind it
+   blurred enough to show it passing under the pill without competing with
+   the links. Browsers without backdrop-filter get the solid card. */
+.section-nav-pill {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.16);
+  overflow: hidden;
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .section-nav-pill {
+    background: color-mix(in srgb, var(--card) 78%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(1.3);
+    backdrop-filter: blur(14px) saturate(1.3);
+  }
 }
 .section-nav-inner {
+  position: relative;
   display: flex;
-  gap: 22px;
-  /* offset the bar's negative margin, so the links stay on the text column */
-  padding-left: 1px;
-  padding-right: 1px;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  /* the pill spans the text column, so the links spread along it; when they
+     do not fit, the free space is negative and this falls back to packing
+     them from the start, which is what a sideways scroller needs */
+  justify-content: space-between;
+  gap: 2px;
+  padding: 5px;
   overflow-x: auto;
+  overscroll-behavior-x: contain;
   scrollbar-width: none;
   font-family: var(--mono);
   font-size: 0.75rem;
@@ -719,98 +748,129 @@ h3.sub + .ref {
   display: none;
 }
 .section-nav a {
+  position: relative;
+  z-index: 1;
+  padding: 6px 12px;
+  border-radius: 7px;
   color: var(--muted);
   white-space: nowrap;
-  padding-bottom: 3px;
-  border-bottom: 2px solid transparent;
-  transition: color 0.15s ease;
+  transition: color 0.2s ease;
 }
 .section-nav a:hover {
-  color: var(--indigo);
+  color: var(--ink);
 }
 .section-nav a[aria-current="true"] {
   color: var(--ink);
-  border-bottom-color: var(--ochre);
 }
-/* On a phone the bar becomes a floating pill instead of a band pinned to the
-   top edge. A pinned bar has to seal against the very top of the screen, which
-   it cannot do under a notch or Dynamic Island: the page keeps painting into
-   the status-bar strip above it and the leftover gap reads as a glitch. A pill
-   is detached on purpose, so the page passing above and beside it is the
-   design. Built from the same parts as the tag chips: card, hairline, 999px. */
+/* The current section is marked by the ochre underline the site uses for its
+   rules, one element that slides from link to link as you scroll rather than
+   a state that blinks from one to the next. The script sizes it to the whole
+   link; the side padding keeps the line under the word itself. Until it is
+   placed it stays hidden, and without JavaScript there is no current
+   section anyway. */
+.section-nav-indicator {
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  box-sizing: border-box;
+  padding: 0 12px;
+  background: var(--ochre);
+  background-clip: content-box;
+  opacity: 0;
+  pointer-events: none;
+}
+.section-nav-indicator.is-placed {
+  opacity: 1;
+  transition:
+    transform 0.35s cubic-bezier(0.3, 0.7, 0.2, 1),
+    width 0.35s cubic-bezier(0.3, 0.7, 0.2, 1),
+    opacity 0.2s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .section-nav-indicator.is-placed {
+    transition: none;
+  }
+}
+/* When the links do not fit (always on a phone, and in the longer languages
+   on a narrow desktop), the pill scrolls sideways. Each end fades out under a
+   chevron rather than being cut against the edge, and each one only shows
+   while there is actually something that way, so the pair reports the scroll
+   position instead of just decorating it. The fade is a mask on the scroller
+   rather than a painted gradient, which would show as an opaque patch on the
+   frosted pill; the mask belongs to the scroller's box, so it stays put while
+   the links move under it. */
+.section-nav {
+  /* fully clear under the chevron, then fading in over the next stretch */
+  --clear: 26px;
+  --fade: 64px;
+}
+.section-nav.can-scroll-right .section-nav-inner {
+  -webkit-mask-image: linear-gradient(
+    to left,
+    transparent var(--clear),
+    #000 var(--fade)
+  );
+  mask-image: linear-gradient(
+    to left,
+    transparent var(--clear),
+    #000 var(--fade)
+  );
+}
+.section-nav.can-scroll-left .section-nav-inner {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent var(--clear),
+    #000 var(--fade)
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent var(--clear),
+    #000 var(--fade)
+  );
+}
+.section-nav.can-scroll-left.can-scroll-right .section-nav-inner {
+  -webkit-mask-image:
+    linear-gradient(to right, transparent var(--clear), #000 var(--fade)),
+    linear-gradient(to left, transparent var(--clear), #000 var(--fade));
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent var(--clear), #000 var(--fade)),
+    linear-gradient(to left, transparent var(--clear), #000 var(--fade));
+  mask-composite: intersect;
+}
+.section-nav::before,
+.section-nav::after {
+  position: absolute;
+  top: calc(var(--pill-gap) + 1px);
+  bottom: 1px;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+.section-nav::before {
+  content: "‹";
+  left: 13px;
+}
+.section-nav::after {
+  content: "›";
+  right: 13px;
+}
+.section-nav.can-scroll-left::before,
+.section-nav.can-scroll-right::after {
+  opacity: 1;
+}
 @media (max-width: 760px) {
   .section-nav {
-    /* Two different distances. At rest the pill hangs --pill-gap below the
-       language bar; once stuck it should sit closer to the screen edge, at
-       --pill-stuck-gap. The padding sets the first, and `top` compensates for
-       it to set the second, so it goes negative. Padding rather than margin,
-       since sticky offsets constrain the margin box. */
-    --pill-gap: 14px;
     --pill-stuck-gap: 10px;
-    top: calc(var(--pill-stuck-gap) - var(--pill-gap));
-    padding-top: var(--pill-gap);
-    /* keep the 1px overhang: the pill's edge would otherwise land on the very
-       pixel where the text column starts, and the page behind bleeds there */
-    margin-left: -1px;
-    margin-right: -1px;
-    background: none;
-    border-bottom: 0;
-  }
-  /* The pill is painted here and NOT on the element that scrolls: WebKit moves
-     a scroller's own background with the rubber-band overscroll, which briefly
-     slid the chip aside and exposed the page under it. */
-  .section-nav-pill {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.16);
-    overflow: hidden;
-  }
-  .section-nav-inner {
-    padding: 9px 16px;
-    /* and keep the bounce from chaining out to the page */
-    overscroll-behavior-x: contain;
-  }
-  /* The links do not fit on a phone, so the pill scrolls sideways. Each end
-     fades out under a chevron rather than being cut against the edge, and each
-     one only shows while there is actually something that way — so the pair
-     reports the scroll position instead of just decorating it. They sit on the
-     nav, not on the pill, which is what scrolls. */
-  .section-nav::before,
-  .section-nav::after {
-    position: absolute;
-    top: calc(var(--pill-gap) + 1px);
-    bottom: 1px;
-    width: 42px;
-    display: flex;
-    align-items: center;
-    color: var(--muted);
-    font-family: var(--mono);
-    font-size: 0.95rem;
-    line-height: 1;
-    opacity: 0;
-    transition: opacity 0.15s ease;
-    pointer-events: none;
-  }
-  .section-nav::before {
-    content: "‹";
-    left: 1px;
-    justify-content: flex-start;
-    padding-left: 12px;
-    border-radius: 11px 0 0 11px;
-    background: linear-gradient(to left, transparent, var(--card) 58%);
-  }
-  .section-nav::after {
-    content: "›";
-    right: 1px;
-    justify-content: flex-end;
-    padding-right: 12px;
-    border-radius: 0 11px 11px 0;
-    background: linear-gradient(to right, transparent, var(--card) 58%);
-  }
-  .section-nav.can-scroll-left::before,
-  .section-nav.can-scroll-right::after {
-    opacity: 1;
   }
 }
 

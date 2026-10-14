@@ -1,0 +1,39 @@
+---
+// Background for the hero: the footer's gamma turned around, drawn as a
+// single line from one edge of the window to the other and standing on the
+// hero's lower edge. Its peak sits against the right edge, in the open space
+// beside the name, and its long tail runs back under the name; the footer's
+// peaks on the left and trails off to the right, so the page opens and closes
+// on the same shape, mirrored.
+import { HI, LO, density } from "../lib/gamma";
+
+const r2 = (n: number) => n.toFixed(2);
+
+// Stretched to the hero (preserveAspectRatio="none"), so the units are
+// arbitrary: y has the axis at 100 and the peak at 28. The axis is a little
+// longer than the footer's, which keeps the tail going across the window.
+// Strokes are non-scaling.
+const W = 100,
+  H = 100,
+  PEAK = 72,
+  END = HI + 1;
+const G = 240;
+const line =
+  "M" +
+  Array.from({ length: G }, (_, i) => {
+    const v = LO + ((END - LO) * i) / (G - 1);
+    // mirrored: v = 0 is the right edge
+    const x = W - ((v - LO) / (END - LO)) * W;
+    return `${r2(x)},${r2(H - PEAK * density(v))}`;
+  }).join(" L");
+---
+
+<svg
+  class="hero-motif"
+  viewBox={`0 0 ${W} ${H}`}
+  preserveAspectRatio="none"
+  aria-hidden="true"
+  focusable="false"
+>
+  <path d={line}></path>
+</svg>

@@ -34,6 +34,10 @@ section[id] {
 
 body {
   margin: 0;
+  /* the hero's background runs 100vw, which counts the scrollbar where one
+     takes space; clip that overhang rather than scroll sideways (clip, unlike
+     hidden, leaves the sticky nav alone) */
+  overflow-x: clip;
   background: var(--paper);
   color: var(--ink);
   font-family: var(--sans);
@@ -141,9 +145,30 @@ h3.sub:first-child {
 
 /* =================== HERO =================== */
 .hero {
+  position: relative;
   padding: 74px 0 28px;
 }
+/* Behind the hero: the footer's gamma, mirrored, standing on the hero's lower
+   edge as one faint ochre line across the full width of the window rather
+   than the text column. Its height is tied to the width on narrow screens, so
+   the curve keeps its proportions instead of stretching up a tall hero. */
+.hero-motif {
+  position: absolute;
+  bottom: 0;
+  left: calc(50% - 50vw);
+  width: 100vw;
+  height: min(100%, 50vw);
+  pointer-events: none;
+}
+.hero-motif path {
+  fill: none;
+  stroke: var(--ochre);
+  stroke-width: 1.2;
+  opacity: 0.35;
+  vector-effect: non-scaling-stroke;
+}
 .hero-inner {
+  position: relative;
   max-width: 680px;
 }
 .name {

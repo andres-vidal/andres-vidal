@@ -123,12 +123,14 @@ h2.sec {
   text-wrap: balance;
 }
 
+/* Subheadings sit between the section heading (1.5rem serif) and the item
+   titles (1.06rem bold sans), so they have to be larger than the items. */
 h3.sub {
   font-family: var(--serif);
   font-weight: 600;
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   letter-spacing: -0.01em;
-  margin: 40px 0 0;
+  margin: 40px 0 16px;
   text-wrap: balance;
 }
 
@@ -224,19 +226,15 @@ h3.sub {
 }
 
 /* =================== PUBLICATIONS =================== */
+/* The lists run the full width so their hairlines match the project list;
+   the measure is capped on the text instead. */
 .reflist {
   display: flex;
   flex-direction: column;
   gap: 0;
-  max-width: 74ch;
 }
-.sublabel {
-  font-family: var(--serif);
-  font-size: 1.05rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--ink-2);
-  margin: 30px 0 12px;
+.ref > * {
+  max-width: 74ch;
 }
 .ref {
   display: flex;
@@ -255,8 +253,12 @@ h3.sub {
 .ref:first-child {
   padding-top: 0;
 }
-.ref:last-child {
+.ref:last-child,
+.ref:has(+ h3.sub) {
   padding-bottom: 0;
+}
+h3.sub + .ref {
+  padding-top: 0;
 }
 .ref .title {
   font-weight: 600;
@@ -377,6 +379,8 @@ h3.sub {
   display: flex;
   flex-direction: column;
   gap: 2px;
+}
+.row > * {
   max-width: 74ch;
 }
 .row {

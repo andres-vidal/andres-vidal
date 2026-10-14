@@ -11,9 +11,10 @@ const sections = [
   { href: "#about", label: "About" },
   ...(hasPosts ? [{ href: "#writing", label: "Blog" }] : []),
   { href: "#research", label: "Research" },
-  { href: "#work", label: "Work" },
-  { href: "#toolbox", label: "Toolbox" },
+  { href: "#projects", label: "Projects" },
   { href: "#experience", label: "Experience" },
+  { href: "#education", label: "Education" },
+  { href: "#toolbox", label: "Toolbox" },
   { href: "#contact", label: "Contact" },
 ];
 ---
@@ -140,7 +141,7 @@ const sections = [
             ></span
           >
         </div>
-        <p class="sublabel">Peer-reviewed publications · Co-authored</p>
+        <h3 class="sub">Peer-reviewed publications · Co-authored</h3>
         <div class="ref">
           <span class="title"
             >Parallel-Distributed Implementation of the Lipizzaner Framework for
@@ -173,10 +174,10 @@ const sections = [
     </div>
   </section>
 
-  <section id="work">
+  <section id="projects">
     <div class="wrap" style="padding:0">
       <div class="rule"></div>
-      <h2 class="sec">Selected Work</h2>
+      <h2 class="sec">Projects</h2>
       <div class="projects">
         <article class="proj feature">
           <h3>ppforest2</h3>
@@ -219,25 +220,6 @@ const sections = [
           </div>
         </article>
       </div>
-    </div>
-  </section>
-
-  <section id="toolbox">
-    <div class="wrap" style="padding:0">
-      <div class="rule"></div>
-      <h2 class="sec">Toolbox</h2>
-      <div class="chips-row">
-        <span>TypeScript</span><span>React</span><span>Next.js</span><span
-          >NestJS</span
-        ><span>Zod</span><span>PostgreSQL</span><span>Elixir · Phoenix</span
-        ><span>C++ · HPC</span><span>R</span><span>Python</span><span
-          >Statistics / ML</span
-        >
-      </div>
-      <p class="langs">
-        <b>Languages:</b> Spanish (native), Portuguese (bilingual), English (Cambridge
-        FCE, C1).
-      </p>
     </div>
   </section>
 
@@ -287,9 +269,14 @@ const sections = [
           </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <h3 class="sub">Education</h3>
-      <div class="rows" style="margin-top:14px">
+  <section id="education">
+    <div class="wrap" style="padding:0">
+      <div class="rule"></div>
+      <h2 class="sec">Education</h2>
+      <div class="rows">
         <div class="row">
           <div class="when">Upcoming</div>
           <div class="what">
@@ -341,7 +328,7 @@ const sections = [
       </div>
 
       <h3 class="sub">Other</h3>
-      <div class="rows" style="margin-top:14px">
+      <div class="rows">
         <div class="row">
           <div class="when">2015</div>
           <div class="what">
@@ -355,6 +342,25 @@ const sections = [
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="toolbox">
+    <div class="wrap" style="padding:0">
+      <div class="rule"></div>
+      <h2 class="sec">Toolbox</h2>
+      <div class="chips-row">
+        <span>TypeScript</span><span>React</span><span>Next.js</span><span
+          >NestJS</span
+        ><span>Zod</span><span>PostgreSQL</span><span>Elixir · Phoenix</span
+        ><span>C++ · HPC</span><span>R</span><span>Python</span><span
+          >Statistics / ML</span
+        >
+      </div>
+      <p class="langs">
+        <b>Languages:</b> Spanish (native), Portuguese (bilingual), English (Cambridge
+        FCE, C1).
+      </p>
     </div>
   </section>
 </Base>

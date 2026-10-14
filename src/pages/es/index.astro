@@ -11,9 +11,10 @@ const sections = [
   { href: "#about", label: "Sobre mí" },
   ...(hasPosts ? [{ href: "#writing", label: "Blog" }] : []),
   { href: "#research", label: "Investigación" },
-  { href: "#work", label: "Trabajo" },
-  { href: "#toolbox", label: "Herramientas" },
+  { href: "#projects", label: "Proyectos" },
   { href: "#experience", label: "Experiencia" },
+  { href: "#education", label: "Formación" },
+  { href: "#toolbox", label: "Herramientas" },
   { href: "#contact", label: "Contacto" },
 ];
 ---
@@ -143,9 +144,7 @@ const sections = [
             ></span
           >
         </div>
-        <p class="sublabel">
-          Publicaciones con revisión por pares · Co-autoría
-        </p>
+        <h3 class="sub">Publicaciones con revisión por pares · Co-autoría</h3>
         <div class="ref">
           <span class="title"
             >Parallel-Distributed Implementation of the Lipizzaner Framework for
@@ -178,10 +177,10 @@ const sections = [
     </div>
   </section>
 
-  <section id="work">
+  <section id="projects">
     <div class="wrap" style="padding:0">
       <div class="rule"></div>
-      <h2 class="sec">Trabajo seleccionado</h2>
+      <h2 class="sec">Proyectos</h2>
       <div class="projects">
         <article class="proj feature">
           <h3>ppforest2</h3>
@@ -226,25 +225,6 @@ const sections = [
           </div>
         </article>
       </div>
-    </div>
-  </section>
-
-  <section id="toolbox">
-    <div class="wrap" style="padding:0">
-      <div class="rule"></div>
-      <h2 class="sec">Herramientas</h2>
-      <div class="chips-row">
-        <span>TypeScript</span><span>React</span><span>Next.js</span><span
-          >NestJS</span
-        ><span>Zod</span><span>PostgreSQL</span><span>Elixir · Phoenix</span
-        ><span>C++ · HPC</span><span>R</span><span>Python</span><span
-          >Estadística / ML</span
-        >
-      </div>
-      <p class="langs">
-        <b>Idiomas:</b> español (nativo), portugués (bilingüe), inglés (Cambridge
-        FCE, C1).
-      </p>
     </div>
   </section>
 
@@ -295,9 +275,14 @@ const sections = [
           </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <h3 class="sub">Formación</h3>
-      <div class="rows" style="margin-top:14px">
+  <section id="education">
+    <div class="wrap" style="padding:0">
+      <div class="rule"></div>
+      <h2 class="sec">Formación</h2>
+      <div class="rows">
         <div class="row">
           <div class="when">Próximamente</div>
           <div class="what">
@@ -346,7 +331,7 @@ const sections = [
       </div>
 
       <h3 class="sub">Otros</h3>
-      <div class="rows" style="margin-top:14px">
+      <div class="rows">
         <div class="row">
           <div class="when">2015</div>
           <div class="what">
@@ -359,6 +344,25 @@ const sections = [
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="toolbox">
+    <div class="wrap" style="padding:0">
+      <div class="rule"></div>
+      <h2 class="sec">Herramientas</h2>
+      <div class="chips-row">
+        <span>TypeScript</span><span>React</span><span>Next.js</span><span
+          >NestJS</span
+        ><span>Zod</span><span>PostgreSQL</span><span>Elixir · Phoenix</span
+        ><span>C++ · HPC</span><span>R</span><span>Python</span><span
+          >Estadística / ML</span
+        >
+      </div>
+      <p class="langs">
+        <b>Idiomas:</b> español (nativo), portugués (bilingüe), inglés (Cambridge
+        FCE, C1).
+      </p>
     </div>
   </section>
 </Base>

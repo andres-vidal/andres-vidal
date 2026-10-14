@@ -152,6 +152,10 @@ header.cv {
   color: var(--indigo);
 }
 
+/* keep a hyphenated compound on one line, so it never breaks at its hyphen */
+.nowrap {
+  white-space: nowrap;
+}
 .summary {
   margin: 20px 0 0;
   color: var(--ink-2);

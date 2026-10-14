@@ -2,27 +2,35 @@
 // Background for the hero: the logistic curve, as one faint ochre line across
 // the full width of the window, standing on the hero's lower edge. It is the
 // logistic regression link and distribution function on one side, and the
-// classic neural-network activation on the other. It sits flat under the name
-// and climbs in the open space to the right.
+// classic neural-network activation on the other. It resolves in the middle of
+// the page and runs flat to either edge.
 const r2 = (n: number) => n.toFixed(2);
 
-// Stretched to the hero (preserveAspectRatio="none"), so the units are
-// arbitrary: y has the axis at 100 and the top of the curve at 28. The input
-// runs over [-7, 3], which puts the midpoint at 70% of the width. Strokes are
-// non-scaling.
+// Stretched to its box (preserveAspectRatio="none"), so the units are
+// arbitrary: y has the axis at 100 and the asymptote at 28. The box maps
+// t ∈ [-6, 6] onto [0, 100], so the whole climb, flat to flat, happens inside
+// it with the midpoint at its centre. The box is a fixed-width band in the
+// middle of the window; the flat tails run on past it (the SVG does not clip)
+// to the window's edges. Strokes are non-scaling.
 const W = 100,
   H = 100,
   PEAK = 72,
-  LO = -7,
-  HI = 3,
-  G = 240;
-const line =
-  "M" +
-  Array.from({ length: G }, (_, i) => {
-    const t = LO + ((HI - LO) * i) / (G - 1);
-    const x = (i / (G - 1)) * W;
-    return `${r2(x)},${r2(H - PEAK / (1 + Math.exp(-t)))}`;
-  }).join(" L");
+  LO = -6,
+  HI = 6,
+  SCALE = W / (HI - LO);
+const X = (t: number) => (t - LO) * SCALE;
+const Y = (t: number) => H - PEAK / (1 + Math.exp(-t));
+
+// draw well into both asymptotes, then carry them on flat
+const T0 = -12,
+  T1 = 8,
+  G = 300;
+const pts = Array.from({ length: G }, (_, i) => {
+  const t = T0 + ((T1 - T0) * i) / (G - 1);
+  return `${r2(X(t))},${r2(Y(t))}`;
+});
+const FAR = 10000;
+const line = `M${-FAR},${r2(Y(T0))} L${pts.join(" L")} L${FAR},${r2(Y(T1))}`;
 ---
 
 <svg

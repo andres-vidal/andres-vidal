@@ -149,15 +149,19 @@ h3.sub:first-child {
   padding: 74px 0 28px;
 }
 /* Behind the hero: the logistic curve, standing on the hero's lower edge as
-   one faint ochre line across the full width of the window rather than the
-   text column. Its height is capped by the width, so on a wide, short hero it
-   fills the height and on a narrow, tall one it does not climb to the top. */
+   one faint ochre line from one edge of the window to the other. The whole
+   climb happens in a band of fixed width centred on the window; the flat
+   tails run on past it (the SVG does not clip) to the window's edges, so a
+   wide screen lengthens the tails, not the S. Its height is capped by the
+   width, so on a narrow, tall hero it does not climb to the top. */
 .hero-motif {
+  --motif-w: min(100vw, 640px);
   position: absolute;
   bottom: 0;
-  left: calc(50% - 50vw);
-  width: 100vw;
+  left: calc(50% - var(--motif-w) / 2);
+  width: var(--motif-w);
   height: min(100%, 50vw);
+  overflow: visible;
   pointer-events: none;
 }
 /* An S keeps its character when stretched up, so on a phone it can take
@@ -176,7 +180,7 @@ h3.sub:first-child {
 }
 .hero-inner {
   position: relative;
-  max-width: 680px;
+  max-width: 760px;
 }
 .name {
   font-family: var(--serif);
@@ -191,8 +195,14 @@ h3.sub:first-child {
   font-size: 1.2rem;
   line-height: 1.52;
   color: var(--ink-2);
-  max-width: 42ch;
+  /* wide enough that the bold phrase, which does not break, fits on a line
+     with the words around it: two lines in all three languages, not three
+     narrow ones (the Spanish second line is the longest, ~710px) */
+  max-width: 740px;
   margin: 22px 0 0;
+  /* even lines, so the compound held together above does not push a lone
+     word onto a line of its own */
+  text-wrap: balance;
 }
 .thesis b {
   color: var(--ink);
@@ -576,6 +586,20 @@ h3.sub + .ref {
 .foot-motif .m-rug {
   stroke: var(--line);
   stroke-width: 1;
+}
+
+/* keep a hyphenated compound on one line, so it never breaks at its hyphen */
+.nowrap {
+  white-space: nowrap;
+}
+/* a whole phrase kept on one line, where the column is wide enough to hold
+   it; on a phone it would overflow, so there it may wrap between words. The
+   breakpoint fits the longest of the three hero phrases (Spanish, ~460px)
+   inside the column. */
+@media (min-width: 560px) {
+  .nowrap-wide {
+    white-space: nowrap;
+  }
 }
 
 /* Hidden from sight, kept for screen readers and the document outline. */

@@ -148,10 +148,10 @@ h3.sub:first-child {
   position: relative;
   padding: 74px 0 28px;
 }
-/* Behind the hero: the footer's gamma, mirrored, standing on the hero's lower
-   edge as one faint ochre line across the full width of the window rather
-   than the text column. Its height is tied to the width on narrow screens, so
-   the curve keeps its proportions instead of stretching up a tall hero. */
+/* Behind the hero: the logistic curve, standing on the hero's lower edge as
+   one faint ochre line across the full width of the window rather than the
+   text column. Its height is capped by the width, so on a wide, short hero it
+   fills the height and on a narrow, tall one it does not climb to the top. */
 .hero-motif {
   position: absolute;
   bottom: 0;
@@ -159,6 +159,13 @@ h3.sub:first-child {
   width: 100vw;
   height: min(100%, 50vw);
   pointer-events: none;
+}
+/* An S keeps its character when stretched up, so on a phone it can take
+   most of the (tall, stacked) hero instead of lying flat along the bottom. */
+@media (max-width: 760px) {
+  .hero-motif {
+    height: min(100%, 90vw);
+  }
 }
 .hero-motif path {
   fill: none;

@@ -1,30 +1,27 @@
 ---
-// Background for the hero: the footer's gamma turned around, drawn as a
-// single line from one edge of the window to the other and standing on the
-// hero's lower edge. Its peak sits against the right edge, in the open space
-// beside the name, and its long tail runs back under the name; the footer's
-// peaks on the left and trails off to the right, so the page opens and closes
-// on the same shape, mirrored.
-import { HI, LO, density } from "../lib/gamma";
-
+// Background for the hero: the logistic curve, as one faint ochre line across
+// the full width of the window, standing on the hero's lower edge. It is the
+// logistic regression link and distribution function on one side, and the
+// classic neural-network activation on the other. It sits flat under the name
+// and climbs in the open space to the right.
 const r2 = (n: number) => n.toFixed(2);
 
 // Stretched to the hero (preserveAspectRatio="none"), so the units are
-// arbitrary: y has the axis at 100 and the peak at 28. The axis is a little
-// longer than the footer's, which keeps the tail going across the window.
-// Strokes are non-scaling.
+// arbitrary: y has the axis at 100 and the top of the curve at 28. The input
+// runs over [-7, 3], which puts the midpoint at 70% of the width. Strokes are
+// non-scaling.
 const W = 100,
   H = 100,
   PEAK = 72,
-  END = HI + 1;
-const G = 240;
+  LO = -7,
+  HI = 3,
+  G = 240;
 const line =
   "M" +
   Array.from({ length: G }, (_, i) => {
-    const v = LO + ((END - LO) * i) / (G - 1);
-    // mirrored: v = 0 is the right edge
-    const x = W - ((v - LO) / (END - LO)) * W;
-    return `${r2(x)},${r2(H - PEAK * density(v))}`;
+    const t = LO + ((HI - LO) * i) / (G - 1);
+    const x = (i / (G - 1)) * W;
+    return `${r2(x)},${r2(H - PEAK / (1 + Math.exp(-t)))}`;
   }).join(" L");
 ---
 
